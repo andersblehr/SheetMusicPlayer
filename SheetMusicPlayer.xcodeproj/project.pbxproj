@@ -1,0 +1,418 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		5CF9CB5D12E33C0200AAFCD0 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CF9CB5C12E33C0200AAFCD0 /* UIKit.framework */; };
+		5CF9CB5F12E33C0200AAFCD0 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CF9CB5E12E33C0200AAFCD0 /* Foundation.framework */; };
+		5CF9CB6112E33C0200AAFCD0 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CF9CB6012E33C0200AAFCD0 /* CoreGraphics.framework */; };
+		5CF9CB6712E33C0200AAFCD0 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5CF9CB6512E33C0200AAFCD0 /* InfoPlist.strings */; };
+		5CF9CB6A12E33C0200AAFCD0 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CF9CB6912E33C0200AAFCD0 /* main.m */; };
+		5CF9CB6D12E33C0200AAFCD0 /* SheetMusicPlayerAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CF9CB6C12E33C0200AAFCD0 /* SheetMusicPlayerAppDelegate.m */; };
+		5CF9CB7012E33C0200AAFCD0 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5CF9CB6E12E33C0200AAFCD0 /* MainWindow.xib */; };
+		5CF9CB7712E33C0200AAFCD0 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CF9CB5C12E33C0200AAFCD0 /* UIKit.framework */; };
+		5CF9CB7812E33C0200AAFCD0 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CF9CB5E12E33C0200AAFCD0 /* Foundation.framework */; };
+		5CF9CB7912E33C0200AAFCD0 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CF9CB6012E33C0200AAFCD0 /* CoreGraphics.framework */; };
+		5CF9CB7F12E33C0200AAFCD0 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5CF9CB7D12E33C0200AAFCD0 /* InfoPlist.strings */; };
+		5CF9CB8212E33C0200AAFCD0 /* SheetMusicPlayerTests.h in Resources */ = {isa = PBXBuildFile; fileRef = 5CF9CB8112E33C0200AAFCD0 /* SheetMusicPlayerTests.h */; };
+		5CF9CB8412E33C0200AAFCD0 /* SheetMusicPlayerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CF9CB8312E33C0200AAFCD0 /* SheetMusicPlayerTests.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		5CF9CB5812E33C0200AAFCD0 /* SheetMusicPlayer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SheetMusicPlayer.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		5CF9CB5C12E33C0200AAFCD0 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		5CF9CB5E12E33C0200AAFCD0 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		5CF9CB6012E33C0200AAFCD0 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		5CF9CB6412E33C0200AAFCD0 /* SheetMusicPlayer-Info.plist */ = {isa = PBXFileReference; path = "SheetMusicPlayer-Info.plist"; sourceTree = "<group>"; };
+		5CF9CB6612E33C0200AAFCD0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		5CF9CB6812E33C0200AAFCD0 /* SheetMusicPlayer-Prefix.pch */ = {isa = PBXFileReference; path = "SheetMusicPlayer-Prefix.pch"; sourceTree = "<group>"; };
+		5CF9CB6912E33C0200AAFCD0 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		5CF9CB6B12E33C0200AAFCD0 /* SheetMusicPlayerAppDelegate.h */ = {isa = PBXFileReference; path = SheetMusicPlayerAppDelegate.h; sourceTree = "<group>"; };
+		5CF9CB6C12E33C0200AAFCD0 /* SheetMusicPlayerAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SheetMusicPlayerAppDelegate.m; sourceTree = "<group>"; };
+		5CF9CB6F12E33C0200AAFCD0 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainWindow.xib; sourceTree = "<group>"; };
+		5CF9CB7612E33C0200AAFCD0 /* SheetMusicPlayerTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SheetMusicPlayerTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		5CF9CB7C12E33C0200AAFCD0 /* SheetMusicPlayerTests-Info.plist */ = {isa = PBXFileReference; path = "SheetMusicPlayerTests-Info.plist"; sourceTree = "<group>"; };
+		5CF9CB7E12E33C0200AAFCD0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		5CF9CB8012E33C0200AAFCD0 /* SheetMusicPlayerTests-Prefix.pch */ = {isa = PBXFileReference; path = "SheetMusicPlayerTests-Prefix.pch"; sourceTree = "<group>"; };
+		5CF9CB8112E33C0200AAFCD0 /* SheetMusicPlayerTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SheetMusicPlayerTests.h; sourceTree = "<group>"; };
+		5CF9CB8312E33C0200AAFCD0 /* SheetMusicPlayerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SheetMusicPlayerTests.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		5CF9CB5512E33C0200AAFCD0 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5CF9CB5D12E33C0200AAFCD0 /* UIKit.framework in Frameworks */,
+				5CF9CB5F12E33C0200AAFCD0 /* Foundation.framework in Frameworks */,
+				5CF9CB6112E33C0200AAFCD0 /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5CF9CB7212E33C0200AAFCD0 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5CF9CB7712E33C0200AAFCD0 /* UIKit.framework in Frameworks */,
+				5CF9CB7812E33C0200AAFCD0 /* Foundation.framework in Frameworks */,
+				5CF9CB7912E33C0200AAFCD0 /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		5CF9CB4D12E33C0200AAFCD0 = {
+			isa = PBXGroup;
+			children = (
+				5CF9CB6212E33C0200AAFCD0 /* SheetMusicPlayer */,
+				5CF9CB7A12E33C0200AAFCD0 /* SheetMusicPlayerTests */,
+				5CF9CB5B12E33C0200AAFCD0 /* Frameworks */,
+				5CF9CB5912E33C0200AAFCD0 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		5CF9CB5912E33C0200AAFCD0 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				5CF9CB5812E33C0200AAFCD0 /* SheetMusicPlayer.app */,
+				5CF9CB7612E33C0200AAFCD0 /* SheetMusicPlayerTests.octest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		5CF9CB5B12E33C0200AAFCD0 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				5CF9CB5C12E33C0200AAFCD0 /* UIKit.framework */,
+				5CF9CB5E12E33C0200AAFCD0 /* Foundation.framework */,
+				5CF9CB6012E33C0200AAFCD0 /* CoreGraphics.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		5CF9CB6212E33C0200AAFCD0 /* SheetMusicPlayer */ = {
+			isa = PBXGroup;
+			children = (
+				5CF9CB6B12E33C0200AAFCD0 /* SheetMusicPlayerAppDelegate.h */,
+				5CF9CB6C12E33C0200AAFCD0 /* SheetMusicPlayerAppDelegate.m */,
+				5CF9CB6E12E33C0200AAFCD0 /* MainWindow.xib */,
+				5CF9CB6312E33C0200AAFCD0 /* Supporting Files */,
+			);
+			path = SheetMusicPlayer;
+			sourceTree = "<group>";
+		};
+		5CF9CB6312E33C0200AAFCD0 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				5CF9CB6412E33C0200AAFCD0 /* SheetMusicPlayer-Info.plist */,
+				5CF9CB6512E33C0200AAFCD0 /* InfoPlist.strings */,
+				5CF9CB6812E33C0200AAFCD0 /* SheetMusicPlayer-Prefix.pch */,
+				5CF9CB6912E33C0200AAFCD0 /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		5CF9CB7A12E33C0200AAFCD0 /* SheetMusicPlayerTests */ = {
+			isa = PBXGroup;
+			children = (
+				5CF9CB8112E33C0200AAFCD0 /* SheetMusicPlayerTests.h */,
+				5CF9CB8312E33C0200AAFCD0 /* SheetMusicPlayerTests.m */,
+				5CF9CB7B12E33C0200AAFCD0 /* Supporting Files */,
+			);
+			path = SheetMusicPlayerTests;
+			sourceTree = "<group>";
+		};
+		5CF9CB7B12E33C0200AAFCD0 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				5CF9CB7C12E33C0200AAFCD0 /* SheetMusicPlayerTests-Info.plist */,
+				5CF9CB7D12E33C0200AAFCD0 /* InfoPlist.strings */,
+				5CF9CB8012E33C0200AAFCD0 /* SheetMusicPlayerTests-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		5CF9CB5712E33C0200AAFCD0 /* SheetMusicPlayer */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5CF9CB8712E33C0200AAFCD0 /* Build configuration list for PBXNativeTarget "SheetMusicPlayer" */;
+			buildPhases = (
+				5CF9CB5412E33C0200AAFCD0 /* Sources */,
+				5CF9CB5512E33C0200AAFCD0 /* Frameworks */,
+				5CF9CB5612E33C0200AAFCD0 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SheetMusicPlayer;
+			productName = SheetMusicPlayer;
+			productReference = 5CF9CB5812E33C0200AAFCD0 /* SheetMusicPlayer.app */;
+			productType = "com.apple.product-type.application";
+		};
+		5CF9CB7512E33C0200AAFCD0 /* SheetMusicPlayerTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5CF9CB8A12E33C0200AAFCD0 /* Build configuration list for PBXNativeTarget "SheetMusicPlayerTests" */;
+			buildPhases = (
+				5CF9CB7112E33C0200AAFCD0 /* Sources */,
+				5CF9CB7212E33C0200AAFCD0 /* Frameworks */,
+				5CF9CB7312E33C0200AAFCD0 /* Resources */,
+				5CF9CB7412E33C0200AAFCD0 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SheetMusicPlayerTests;
+			productName = SheetMusicPlayerTests;
+			productReference = 5CF9CB7612E33C0200AAFCD0 /* SheetMusicPlayerTests.octest */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		5CF9CB4F12E33C0200AAFCD0 /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = 5CF9CB5212E33C0200AAFCD0 /* Build configuration list for PBXProject "SheetMusicPlayer" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 5CF9CB4D12E33C0200AAFCD0;
+			productRefGroup = 5CF9CB5912E33C0200AAFCD0 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				5CF9CB5712E33C0200AAFCD0 /* SheetMusicPlayer */,
+				5CF9CB7512E33C0200AAFCD0 /* SheetMusicPlayerTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		5CF9CB5612E33C0200AAFCD0 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5CF9CB6712E33C0200AAFCD0 /* InfoPlist.strings in Resources */,
+				5CF9CB7012E33C0200AAFCD0 /* MainWindow.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5CF9CB7312E33C0200AAFCD0 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5CF9CB7F12E33C0200AAFCD0 /* InfoPlist.strings in Resources */,
+				5CF9CB8212E33C0200AAFCD0 /* SheetMusicPlayerTests.h in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		5CF9CB7412E33C0200AAFCD0 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		5CF9CB5412E33C0200AAFCD0 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5CF9CB6A12E33C0200AAFCD0 /* main.m in Sources */,
+				5CF9CB6D12E33C0200AAFCD0 /* SheetMusicPlayerAppDelegate.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5CF9CB7112E33C0200AAFCD0 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5CF9CB8412E33C0200AAFCD0 /* SheetMusicPlayerTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		5CF9CB6512E33C0200AAFCD0 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				5CF9CB6612E33C0200AAFCD0 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		5CF9CB6E12E33C0200AAFCD0 /* MainWindow.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				5CF9CB6F12E33C0200AAFCD0 /* en */,
+			);
+			name = MainWindow.xib;
+			sourceTree = "<group>";
+		};
+		5CF9CB7D12E33C0200AAFCD0 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				5CF9CB7E12E33C0200AAFCD0 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		5CF9CB8512E33C0200AAFCD0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.2;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		5CF9CB8612E33C0200AAFCD0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.2;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+			};
+			name = Release;
+		};
+		5CF9CB8812E33C0200AAFCD0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "SheetMusicPlayer/SheetMusicPlayer-Prefix.pch";
+				INFOPLIST_FILE = "SheetMusicPlayer/SheetMusicPlayer-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		5CF9CB8912E33C0200AAFCD0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "SheetMusicPlayer/SheetMusicPlayer-Prefix.pch";
+				INFOPLIST_FILE = "SheetMusicPlayer/SheetMusicPlayer-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				VALIDATE_PRODUCT = YES;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		5CF9CB8B12E33C0200AAFCD0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/SheetMusicPlayer.app/SheetMusicPlayer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "SheetMusicPlayerTests/SheetMusicPlayerTests-Prefix.pch";
+				INFOPLIST_FILE = "SheetMusicPlayerTests/SheetMusicPlayerTests-Info.plist";
+				OTHER_LDFLAGS = (
+					"-framework",
+					SenTestingKit,
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Debug;
+		};
+		5CF9CB8C12E33C0200AAFCD0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/SheetMusicPlayer.app/SheetMusicPlayer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "SheetMusicPlayerTests/SheetMusicPlayerTests-Prefix.pch";
+				INFOPLIST_FILE = "SheetMusicPlayerTests/SheetMusicPlayerTests-Info.plist";
+				OTHER_LDFLAGS = (
+					"-framework",
+					SenTestingKit,
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		5CF9CB5212E33C0200AAFCD0 /* Build configuration list for PBXProject "SheetMusicPlayer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5CF9CB8512E33C0200AAFCD0 /* Debug */,
+				5CF9CB8612E33C0200AAFCD0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		5CF9CB8712E33C0200AAFCD0 /* Build configuration list for PBXNativeTarget "SheetMusicPlayer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5CF9CB8812E33C0200AAFCD0 /* Debug */,
+				5CF9CB8912E33C0200AAFCD0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		5CF9CB8A12E33C0200AAFCD0 /* Build configuration list for PBXNativeTarget "SheetMusicPlayerTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5CF9CB8B12E33C0200AAFCD0 /* Debug */,
+				5CF9CB8C12E33C0200AAFCD0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 5CF9CB4F12E33C0200AAFCD0 /* Project object */;
+}
