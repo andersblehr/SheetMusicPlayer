@@ -7,16 +7,20 @@
 //
 
 #import "SheetMusicPlayerAppDelegate.h"
+#import "MainViewController.h"
 
 @implementation SheetMusicPlayerAppDelegate
 
 
 @synthesize window;
+@synthesize navigationController;
+
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    // Override point for customization after application launch.
-    [self.window makeKeyAndVisible];
+    [window addSubview:navigationController.view];
+    [window makeKeyAndVisible];
+    
     return YES;
 }
 
@@ -34,8 +38,9 @@
 }
 
 - (void)dealloc {
-
+    [navigationController release];
     [window release];
+    
     [super dealloc];
 }
 
