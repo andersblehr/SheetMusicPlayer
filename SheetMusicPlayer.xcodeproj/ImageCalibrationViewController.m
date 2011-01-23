@@ -11,92 +11,105 @@
 
 @implementation ImageCalibrationViewController
 
+@synthesize containerView;
+@synthesize originalImageView;
+@synthesize binaryImageView;
 @synthesize sourceImage;
+@synthesize binaryImage;
 @synthesize slider;
+
+#define kDefaultWhiteness 0.3f
 
 
 #pragma mark - 'Private' methods
 
-- (void)obtainBinaryImage {
-    CGImageRef sourceImageCG = [sourceImage CGImage];
-    
-    size_t bitsPerComponent = CGImageGetBitsPerComponent(sourceImageCG);
-    size_t sourceWidth = CGImageGetWidth(sourceImageCG);
-    size_t sourceHeight = CGImageGetHeight(sourceImageCG);
-    size_t contextWidth = sourceWidth;        // 
-    size_t contextHeight = sourceHeight;      // 
-    CGFloat translationWidth = sourceWidth;   // Defaults, may be altered further down
-    CGFloat translationHeight = sourceHeight; // 
-    CGFloat rotationRadians = 0;              // 
-    
-    UIImageOrientation sourceOrientation = [sourceImage imageOrientation];
-    
-    // Handle UIKit and Quartz's differing coordinate systems
-    if (sourceOrientation == UIImageOrientationUp) {
-        // Do nothing
-    } else if (sourceOrientation == UIImageOrientationDown) {
-        rotationRadians = -M_PI;
-    } else if (sourceOrientation == UIImageOrientationRight) {
-        contextWidth = sourceHeight;
-        contextHeight = sourceWidth;
-        translationWidth = -(CGFloat)sourceWidth;
-        translationHeight = 0;
-        rotationRadians = -M_PI/2;
-    } else if (sourceOrientation == UIImageOrientationLeft) {
-        contextWidth = sourceHeight;
-        contextHeight = sourceWidth;
-        translationWidth = 0;
-        translationHeight = -(CGFloat)sourceHeight;
-        rotationRadians = M_PI/2;
-    }
-    
-    unsigned char *pixelArray = malloc(contextWidth * contextHeight);
-    
-    // Convert to grayscale to preserve space (1 byte/pixel vs 4 for RGB)
-    CGColorSpaceRef monochromeColourSpace = CGColorSpaceCreateDeviceGray();
-    CGContextRef grayscaleContext = CGBitmapContextCreate(pixelArray, contextWidth, contextHeight, bitsPerComponent, contextWidth, monochromeColourSpace, kCGImageAlphaNone);
-    
-    // Rotate & translate Quartz coordinate system to preserve image orientation
-    if (sourceOrientation != UIImageOrientationUp) {
-        CGContextRotateCTM(grayscaleContext, rotationRadians);
-        CGContextTranslateCTM(grayscaleContext, translationWidth, translationHeight);
-    }
-    
-    CGContextDrawImage(grayscaleContext, CGRectMake(0, 0, sourceWidth, sourceHeight), sourceImageCG);
-    
-    CGImageRef grayscaleImageCG = CGBitmapContextCreateImage(grayscaleContext);
-    
-    unsigned char bwThreshold = (unsigned char)round([slider value] * 255);
-    
-    for (int i = 0; i < sourceWidth * sourceHeight; i++) {
-        pixelArray[i] = (pixelArray[i] > bwThreshold) ? 255 : 0;
-    }
-    
-    CGImageRef binaryImageCG = CGBitmapContextCreateImage(grayscaleContext);
-    binaryImage = [UIImage imageWithCGImage:binaryImageCG];
-
-    CGColorSpaceRelease(monochromeColourSpace);
-    CGContextRelease(grayscaleContext);
-    CFRelease(grayscaleImageCG); // Releasing CGImage instances created here.
-    CFRelease(binaryImageCG);
-    free(pixelArray);
-}
-
-
-- (void)dissolveToBinary
+- (UIImage *)obtainBinaryImageWithWhiteness:(float)whiteness
 {
-    CGImageRef sourceImageCG = [sourceImage CGImage];
+    CGColorSpaceRef monochromeColourSpace = CGColorSpaceCreateDeviceGray();
     
-    size_t bitsPerComponent = CGImageGetBitsPerComponent(sourceImageCG);
-    size_t bytesPerRow = CGImageGetBytesPerRow(sourceImageCG);
-    size_t sourceWidth = CGImageGetWidth(sourceImageCG);
-    size_t sourceHeight = CGImageGetHeight(sourceImageCG);
-
-    CGColorSpaceRef colourSpace = CGImageGetColorSpace(sourceImageCG);
-    size_t components = CGColorSpaceGetNumberOfComponents(colourSpace);
+    if (!grayscaleArray) {
+        CGImageRef sourceImageCG = [sourceImage CGImage];
+        
+        size_t bitsPerComponent = CGImageGetBitsPerComponent(sourceImageCG);
+        size_t sourceWidth = CGImageGetWidth(sourceImageCG);
+        size_t sourceHeight = CGImageGetHeight(sourceImageCG);
+        size_t imageWidth = sourceWidth;        // 
+        size_t imageHeight = sourceHeight;      // 
+        CGFloat translationWidth = sourceWidth;   // Defaults, may be altered further down
+        CGFloat translationHeight = sourceHeight; // 
+        CGFloat rotationRadians = 0;              // 
+        
+        UIImageOrientation sourceOrientation = [sourceImage imageOrientation];
+        
+        // Handle UIKit and Quartz's differing coordinate systems
+        if (sourceOrientation == UIImageOrientationUp) {
+            // Do nothing
+        } else if (sourceOrientation == UIImageOrientationDown) {
+            rotationRadians = -M_PI;
+        } else if (sourceOrientation == UIImageOrientationRight) {
+            imageWidth = sourceHeight;
+            imageHeight = sourceWidth;
+            translationWidth = -(CGFloat)sourceWidth;
+            translationHeight = 0;
+            rotationRadians = -M_PI/2;
+        } else if (sourceOrientation == UIImageOrientationLeft) {
+            imageWidth = sourceHeight;
+            imageHeight = sourceWidth;
+            translationWidth = 0;
+            translationHeight = -(CGFloat)sourceHeight;
+            rotationRadians = M_PI/2;
+        }
+        
+        grayscaleArray = malloc(imageWidth * imageHeight);
+        binaryArray = malloc(imageWidth * imageHeight);
+        
+        // Convert to grayscale to preserve space (1 byte/pixel vs 4 for RGB)
+        CGContextRef grayscaleContext = CGBitmapContextCreate(grayscaleArray, imageWidth, imageHeight, bitsPerComponent, imageWidth, monochromeColourSpace, kCGImageAlphaNone);
+        
+        // Rotate & translate Quartz coordinate system to preserve image orientation
+        if (sourceOrientation != UIImageOrientationUp) {
+            CGContextRotateCTM(grayscaleContext, rotationRadians);
+            CGContextTranslateCTM(grayscaleContext, translationWidth, translationHeight);
+        }
+        
+        CGContextDrawImage(grayscaleContext, CGRectMake(0, 0, sourceWidth, sourceHeight), sourceImageCG);
+        grayscaleImageCG = CGBitmapContextCreateImage(grayscaleContext);
+        CGContextRelease(grayscaleContext);
+    }
     
-//    CGContextRef bitmapContext = CGBitmapContextCreate(pixelArray, sourceWidth, sourceHeight, bitsPerComponent, bytesPerRow, colourSpace, kCGImageAlphaNone);
+    size_t imageWidth = CGImageGetWidth(grayscaleImageCG);
+    size_t imageHeight = CGImageGetHeight(grayscaleImageCG);
+    
+    unsigned char bwThreshold = (unsigned char)round(whiteness * 255);
+    
+    for (int i = 0; i < imageHeight; i += 2) {
+        int offset1 = imageWidth * i;
+        int offset2 = imageWidth * (i + 1);
+        
+        for (int j = 0; j < imageWidth; j += 2) {
+            unsigned char averageLightness = (grayscaleArray[offset1 + j] + grayscaleArray[offset1 + j + 1] + grayscaleArray[offset2 + j] + grayscaleArray[offset2 + j + 1])/4;
 
+            binaryArray[offset1 + j] = (averageLightness > bwThreshold) ? 255 : 0;
+            binaryArray[offset1 + j + 1] = binaryArray[offset1 + j];
+            binaryArray[offset2 + j] = binaryArray[offset1 + j];
+            binaryArray[offset2 + j + 1] = binaryArray[offset1 + j];
+        }
+    }
+/*    
+    for (int i = 0; i < imageWidth * imageHeight; i += 2) {
+        binaryArray[i] = (grayscaleArray[i] > bwThreshold) ? 255 : 0;
+        binaryArray[i+1] = binaryArray[i];
+    }
+*/    
+    CGContextRef binaryContext = CGBitmapContextCreate(binaryArray, imageWidth, imageHeight, 8, imageWidth, monochromeColourSpace, kCGImageAlphaNone);
+    CGImageRef binaryImageCG = CGBitmapContextCreateImage(binaryContext);
+    UIImage *theBinaryImage = [[UIImage imageWithCGImage:binaryImageCG] retain];
+    
+    CGColorSpaceRelease(monochromeColourSpace);
+    CGContextRelease(binaryContext);
+    CFRelease(binaryImageCG);
+    
+    return [theBinaryImage autorelease];
 }
 
 
@@ -106,11 +119,7 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        containerView = nil;
-        originalImageView = nil;
-        binaryImageView = nil;
-        sourceImage = nil;
-        binaryImage = nil;
+        grayscaleArray = nil;
     }
     return self;
 }
@@ -118,8 +127,19 @@
 
 - (void)dealloc
 {
-    sourceImage = nil;
-    binaryImage = nil;
+    [self.slider removeFromSuperview];
+    [self.binaryImageView removeFromSuperview];
+    [self.containerView removeFromSuperview];
+    
+    self.binaryImageView = nil;
+    self.containerView = nil;
+
+    self.sourceImage = nil;
+    self.binaryImage = nil;
+
+    CFRelease(grayscaleImageCG);
+    free(grayscaleArray);
+    free(binaryArray);
     
     [super dealloc];
 }
@@ -148,46 +168,49 @@
 
 	self.title = @"Photo Calibration";
     
-    UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancel:)];
+    [self.slider setHidden:YES];
+    
+    UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelAction:)];
     self.navigationItem.leftBarButtonItem = cancelButton;
     [cancelButton release];
+
+    UIBarButtonItem *nextButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemPlay target:self action:@selector(playAction:)];
+    self.navigationItem.rightBarButtonItem = nextButton;
+    [nextButton release];
     
     [self.navigationController.navigationBar setTintColor:[UIColor darkGrayColor]];
     [self.navigationController.navigationBar setTranslucent:YES];
     [self.navigationController setNavigationBarHidden:NO animated:YES];
 
-    containerView = [[[UIView alloc] initWithFrame:[self.view frame]] autorelease];
+    self.containerView = [[[UIView alloc] initWithFrame:[self.view frame]] autorelease];
     [self.view addSubview:containerView];
     
-    [self obtainBinaryImage];
-    
-    binaryImageView = [[UIImageView alloc] initWithFrame:[containerView frame]];
-    originalImageView = [[UIImageView alloc] initWithFrame:[containerView frame]];
+    self.originalImageView = [[UIImageView alloc] initWithFrame:[containerView frame]];
+    self.originalImageView.contentMode = UIViewContentModeScaleAspectFit;
+    self.originalImageView.image = sourceImage;
+    [self.containerView addSubview:originalImageView];
 
-    binaryImageView.contentMode = UIViewContentModeScaleAspectFit;
-    binaryImageView.image = binaryImage;
-    originalImageView.contentMode = UIViewContentModeScaleAspectFit;
-    originalImageView.image = sourceImage;
-    
-    [containerView addSubview:binaryImageView];
-    [containerView addSubview:originalImageView];
-    
-    [self dissolveToBinary];
-    
-    
-    [slider setValue:0.3f];
-    [containerView addSubview:slider];
-    
-    [binaryImageView release];
-    [originalImageView release];
+    self.binaryImage = [self obtainBinaryImageWithWhiteness:kDefaultWhiteness];
+    self.binaryImageView = [[UIImageView alloc] initWithFrame:[containerView frame]];
+    self.binaryImageView.contentMode = UIViewContentModeScaleAspectFit;
+    self.binaryImageView.image = binaryImage;
+    [self.containerView insertSubview:binaryImageView belowSubview:originalImageView];
+
+    // Animate transition from original to binary image
+    [UIView beginAnimations:nil context:nil];
+    [UIView setAnimationDuration:2];
+    [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
+    [UIView setAnimationsEnabled:YES];
+    [UIView setAnimationDidStopSelector:@selector(tranisitionToBinaryEnded)];
+    [UIView setAnimationDelegate:self];
+    self.originalImageView.alpha = 0;
+    [UIView commitAnimations];
 }
 
 
 - (void)viewDidUnload
 {
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
 }
 
 
@@ -198,11 +221,30 @@
 }
 
 
-#pragma mark - Navigation bar actions
+#pragma mark - Selector implementations
 
-- (void)cancel:(id)sender
+- (void)cancelAction:(id)sender
 {
+    [self.slider setHidden:YES];
+
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+
+- (void)playAction:(id)sender
+{
+
+}
+
+
+- (void)tranisitionToBinaryEnded
+{
+    [self.originalImageView removeFromSuperview];
+    self.originalImageView = nil;
+    
+    [self.slider setValue:kDefaultWhiteness];
+    [self.slider setHidden:NO];
+    [self.containerView addSubview:slider];
 }
 
 
@@ -210,7 +252,10 @@
 
 - (IBAction)sliderAction:(id)sender
 {
+    self.binaryImage = [self obtainBinaryImageWithWhiteness:[slider value]];
+    self.binaryImageView.image = binaryImage;
     
+    [self.binaryImageView setNeedsDisplay];
 }
 
 @end

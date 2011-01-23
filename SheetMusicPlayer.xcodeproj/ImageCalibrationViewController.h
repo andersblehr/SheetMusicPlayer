@@ -17,11 +17,17 @@
     UIImage *sourceImage;
     UIImage *binaryImage;
     UISlider *slider;
-    
-    unsigned char *pixelArray;
+
+    CGImageRef grayscaleImageCG;
+    unsigned char *grayscaleArray;
+    unsigned char *binaryArray;
 }
 
+@property (nonatomic, retain) UIView *containerView;
+@property (nonatomic, retain) UIImageView *originalImageView;
+@property (nonatomic, retain) UIImageView *binaryImageView;
 @property (nonatomic, retain) UIImage *sourceImage;
+@property (nonatomic, retain) UIImage *binaryImage;
 @property (nonatomic, retain) IBOutlet UISlider *slider;
 
 - (IBAction)sliderAction:(id)sender;
