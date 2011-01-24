@@ -9,15 +9,20 @@
 #import <UIKit/UIKit.h>
 
 
-@interface ImageCalibrationViewController : UIViewController {
+@interface ImageCalibrationViewController : UIViewController <UIScrollViewDelegate, UIGestureRecognizerDelegate> {
 @private
     UIView *containerView;
     UIImageView *originalImageView;
     UIImageView *binaryImageView;
+    UIScrollView *binaryImageScrollView;
     UIImage *sourceImage;
-    UIImage *binaryImage;
     UISlider *slider;
 
+    size_t imageWidth;
+    size_t imageHeight;
+    
+    CGColorSpaceRef monochromeColourSpace;
+    CGContextRef binaryContext;
     CGImageRef grayscaleImageCG;
     unsigned char *grayscaleArray;
     unsigned char *binaryArray;
@@ -26,8 +31,8 @@
 @property (nonatomic, retain) UIView *containerView;
 @property (nonatomic, retain) UIImageView *originalImageView;
 @property (nonatomic, retain) UIImageView *binaryImageView;
+@property (nonatomic, retain) UIScrollView *binaryImageScrollView;
 @property (nonatomic, retain) UIImage *sourceImage;
-@property (nonatomic, retain) UIImage *binaryImage;
 @property (nonatomic, retain) IBOutlet UISlider *slider;
 
 - (IBAction)sliderAction:(id)sender;
