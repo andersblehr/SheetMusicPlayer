@@ -11,14 +11,50 @@
 
 @implementation ImageCalibrationViewController
 
+@dynamic sourceImage;
+
 @synthesize containerView;
 @synthesize originalImageView;
 @synthesize binaryImageView;
 @synthesize binaryImageScrollView;
-@synthesize sourceImage;
 @synthesize slider;
 
-#define kDefaultWhiteness 0.2f
+
+#define kMaxImageDimension 2048.f
+//#define kMaxImageDimension 1024.f
+#define kDefaultWhiteness 0.5f
+#define kMedianFilterWidth 3
+
+
+#pragma mark - Getters & setters for @dynamic properties
+
+- (void)setSourceImage:(UIImage *)theSourceImage
+{
+    size_t sourceWidth = theSourceImage.size.width;
+    size_t sourceHeight = theSourceImage.size.height;
+    UIImage *sizedSourceImage = [theSourceImage retain];
+    
+    // Resize image if larger than max dimensions
+    if ((sourceWidth > kMaxImageDimension) || (sourceHeight > kMaxImageDimension)) {
+        float scaleFactor = kMaxImageDimension / ((sourceWidth > sourceHeight) ? sourceWidth : sourceHeight);
+        
+        CGSize scaledSize = CGSizeMake(scaleFactor * sourceWidth, scaleFactor * sourceHeight);
+        UIGraphicsBeginImageContext(scaledSize);
+        [theSourceImage drawInRect:CGRectMake(0, 0, scaledSize.width, scaledSize.height)];
+        [sizedSourceImage release];
+        sizedSourceImage = [UIGraphicsGetImageFromCurrentImageContext() retain];
+        UIGraphicsEndImageContext();
+    }
+    
+    [sourceImage release];
+    sourceImage = sizedSourceImage;
+}
+
+
+- (UIImage *)sourceImage
+{
+    return sourceImage;
+}
 
 
 #pragma mark - 'Private' methods
@@ -85,21 +121,7 @@
         [self createPixelArrays];
     
     unsigned char bwThreshold = (unsigned char)round(whiteness * 255);
-/*
-    for (int i = 0; i < imageHeight; i += 2) {
-        int offset1 = imageWidth * i;
-        int offset2 = imageWidth * (i + 1);
-        
-        for (int j = 0; j < imageWidth; j += 2) {
-            unsigned char averageLightness = (grayscaleArray[offset1 + j] + grayscaleArray[offset1 + j + 1] + grayscaleArray[offset2 + j] + grayscaleArray[offset2 + j + 1])/4;
 
-            binaryArray[offset1 + j] = (averageLightness > bwThreshold) ? 255 : 0;
-            binaryArray[offset1 + j + 1] = binaryArray[offset1 + j];
-            binaryArray[offset2 + j] = binaryArray[offset1 + j];
-            binaryArray[offset2 + j + 1] = binaryArray[offset1 + j];
-        }
-    }
-*/    
     for (int i = 0; i < imageWidth * imageHeight; i += 2) {
         binaryArray[i] = (grayscaleArray[i] > bwThreshold) ? 255 : 0;
         binaryArray[i+1] = binaryArray[i];
@@ -114,41 +136,47 @@
 }
 
 
-- (UIImage *)obtainSobelImageWithWhiteness:(float)whiteness
+- (UIImage *)obtainSobelImageWithThreshold:(float)threshold
 {
     if (!grayscaleArray)
         [self createPixelArrays];
     
-    unsigned char bwThreshold = (unsigned char)round(whiteness * 255);
+    unsigned char * sobelArray = malloc(imageWidth * imageHeight);
     
     for (int y = 0; y < imageHeight; y++) {
         for (int x = 0; x < imageWidth; x++) {
             if ((y == 0) || (y == imageHeight - 1) || (x == 0) || (x == imageWidth - 1))
-                binaryArray[x + imageWidth * y] = 255;
+                binaryArray[x + y * imageWidth] = 255;
             else {
+                // Obtain X and Y gradients using the Sobel operator
                 int Gx = (    grayscaleArray[(x + 1) + (y - 1) * imageWidth] +
-                          2 * grayscaleArray[(x + 1) + (y + 0) * imageWidth] +
+                          2 * grayscaleArray[(x + 1) + (y    ) * imageWidth] +
                               grayscaleArray[(x + 1) + (y + 1) * imageWidth]) -
                          (    grayscaleArray[(x - 1) + (y - 1) * imageWidth] +
-                          2 * grayscaleArray[(x - 1) + (y + 0) * imageWidth] +
+                          2 * grayscaleArray[(x - 1) + (y    ) * imageWidth] +
                               grayscaleArray[(x - 1) + (y + 1) * imageWidth]);
                 int Gy = (    grayscaleArray[(x - 1) + (y - 1) * imageWidth] +
-                          2 * grayscaleArray[(x + 0) + (y - 1) * imageWidth] +
+                          2 * grayscaleArray[(x    ) + (y - 1) * imageWidth] +
                               grayscaleArray[(x + 1) + (y - 1) * imageWidth]) -
                          (    grayscaleArray[(x - 1) + (y + 1) * imageWidth] +
-                          2 * grayscaleArray[(x + 0) + (y + 1) * imageWidth] +
+                          2 * grayscaleArray[(x    ) + (y + 1) * imageWidth] +
                               grayscaleArray[(x + 1) + (y + 1) * imageWidth]);
                 
-                int G = abs(Gx) + abs(Gy);
-                binaryArray[x + imageWidth * y] = (G > bwThreshold) ? 0 : 255;
+                //int G = abs(Gx) + abs(Gy);
+                //sobelArray[x + y * imageWidth] = (G > 255) ? 255 : (unsigned char)G;
+                
+                int G = Gx + Gy;
+                int GWithOffset = (256 * threshold) + G;
+                binaryArray[x + y * imageWidth] = (GWithOffset > 255) ? 255 : ((GWithOffset < 0) ? 0 : (unsigned char)GWithOffset);
             }
         }
     }
-    
+
     CGImageRef binaryImageCG = CGBitmapContextCreateImage(binaryContext);
     UIImage *theBinaryImage = [[UIImage imageWithCGImage:binaryImageCG] retain];
     
     CFRelease(binaryImageCG);
+    free(sobelArray);
     
     return [theBinaryImage autorelease];
 }
@@ -210,10 +238,6 @@
 
 	self.title = @"Photo Calibration";
     
-    [self.navigationController.navigationBar setTintColor:[UIColor darkGrayColor]];
-    [self.navigationController.navigationBar setTranslucent:YES];
-    [self.navigationController setNavigationBarHidden:NO animated:YES];
-    
     UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelAction:)];
     self.navigationItem.leftBarButtonItem = cancelButton;
     [cancelButton release];
@@ -256,27 +280,33 @@
 }
 
 
+- (void)tranisitionToBinaryEnded:(id)sender
+{
+    [self.originalImageView removeFromSuperview];
+    self.originalImageView = nil;
+    
+    [self.navigationController.navigationBar setTintColor:[UIColor darkGrayColor]];
+    [self.navigationController.navigationBar setTranslucent:YES];
+    [self.navigationController setNavigationBarHidden:NO animated:YES];
+    
+    [self.slider setValue:kDefaultWhiteness];
+    [self.slider setHidden:NO];
+    [self.containerView addSubview:slider];
+}
+
+
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
     
-    self.binaryImageView.image = [self obtainSobelImageWithWhiteness:kDefaultWhiteness];
+    self.binaryImageView.image = [self obtainSobelImageWithThreshold:kDefaultWhiteness];
     //self.binaryImageView.image = [self obtainBinaryImageWithWhiteness:kDefaultWhiteness];
     [self.containerView insertSubview:binaryImageScrollView belowSubview:originalImageView];
     
     // Animate transition from original to binary image
     if ([[[UIDevice currentDevice] systemVersion] compare:@"4.0"] != NSOrderedAscending) {
         // iOS 4.x
-        [UIView animateWithDuration:2.0 animations:^{ self.originalImageView.alpha = 0.0; } completion:^(BOOL finished) {
-            [self.originalImageView removeFromSuperview];
-            self.originalImageView = nil;
-            
-            [self.slider setValue:kDefaultWhiteness];
-            //[self.slider setHidden:YES];
-            [self.containerView addSubview:slider];
-            
-            //[self.navigationController setNavigationBarHidden:YES animated:YES];
-        }];
+        [UIView animateWithDuration:2.0 animations:^{ self.originalImageView.alpha = 0.0; } completion:^(BOOL finished) { [self tranisitionToBinaryEnded:nil]; }];
     } else {
         // iPhoneOS 3.x
         [UIView beginAnimations:nil context:nil];
@@ -350,25 +380,11 @@
 }
 
 
-- (void)tranisitionToBinaryEnded:(id)sender
-{
-    // Only used for iPhoneOS 3.x
-    [self.originalImageView removeFromSuperview];
-    self.originalImageView = nil;
-    
-    [self.slider setValue:kDefaultWhiteness];
-    [self.slider setHidden:YES];
-    [self.containerView addSubview:slider];
-    
-    [self.navigationController setNavigationBarHidden:YES animated:YES];
-}
-
-
 #pragma mark - IBAction methods
 
 - (IBAction)sliderAction:(id)sender
 {
-    self.binaryImageView.image = [self obtainSobelImageWithWhiteness:[slider value]];
+    self.binaryImageView.image = [self obtainSobelImageWithThreshold:[slider value]];
     //self.binaryImageView.image = [self obtainBinaryImageWithWhiteness:[slider value]];
 }
 

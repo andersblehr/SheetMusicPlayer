@@ -11,11 +11,12 @@
 
 @interface ImageCalibrationViewController : UIViewController <UIScrollViewDelegate, UIGestureRecognizerDelegate> {
 @private
+    UIImage *sourceImage;
+    
     UIView *containerView;
     UIImageView *originalImageView;
     UIImageView *binaryImageView;
     UIScrollView *binaryImageScrollView;
-    UIImage *sourceImage;
     UISlider *slider;
 
     size_t imageWidth;
@@ -28,11 +29,11 @@
     unsigned char *binaryArray;
 }
 
+@property (nonatomic, retain) UIImage *sourceImage;
 @property (nonatomic, retain) UIView *containerView;
 @property (nonatomic, retain) UIImageView *originalImageView;
 @property (nonatomic, retain) UIImageView *binaryImageView;
 @property (nonatomic, retain) UIScrollView *binaryImageScrollView;
-@property (nonatomic, retain) UIImage *sourceImage;
 @property (nonatomic, retain) IBOutlet UISlider *slider;
 
 - (IBAction)sliderAction:(id)sender;
