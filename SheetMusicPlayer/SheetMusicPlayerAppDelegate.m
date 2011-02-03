@@ -24,6 +24,7 @@
     return YES;
 }
 
+
 - (void)applicationWillResignActive:(UIApplication *)application
 {
     /*
@@ -32,10 +33,12 @@
      */
 }
 
+
 - (void)applicationWillTerminate:(UIApplication *)application
 {
     // Save data if appropriate.
 }
+
 
 - (void)dealloc {
     [navigationController release];

@@ -7,34 +7,33 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "OverlayView.h"
+#import "ImageAnalyser.h"
 
 
 @interface ImageCalibrationViewController : UIViewController <UIScrollViewDelegate, UIGestureRecognizerDelegate> {
 @private
-    UIImage *sourceImage;
+    UISlider *slider;
     
     UIView *containerView;
-    UIImageView *originalImageView;
-    UIImageView *binaryImageView;
-    UIScrollView *binaryImageScrollView;
-    UISlider *slider;
-
-    size_t imageWidth;
-    size_t imageHeight;
+    UIImageView *sourceImageView;
+    UIImageView *sobelImageView;
+    OverlayView *overlayView;
+    UIScrollView *overlayImageScrollView;
     
-    CGColorSpaceRef monochromeColourSpace;
-    CGContextRef binaryContext;
-    CGImageRef grayscaleImageCG;
-    unsigned char *grayscaleArray;
-    unsigned char *binaryArray;
+    ImageAnalyser *imageAnalyser;
 }
 
 @property (nonatomic, retain) UIImage *sourceImage;
-@property (nonatomic, retain) UIView *containerView;
-@property (nonatomic, retain) UIImageView *originalImageView;
-@property (nonatomic, retain) UIImageView *binaryImageView;
-@property (nonatomic, retain) UIScrollView *binaryImageScrollView;
 @property (nonatomic, retain) IBOutlet UISlider *slider;
+
+@property (nonatomic, retain) UIView *containerView;
+@property (nonatomic, retain) UIImageView *sourceImageView;
+@property (nonatomic, retain) UIImageView *sobelImageView;
+@property (nonatomic, retain) OverlayView *overlayView;
+@property (nonatomic, retain) UIScrollView *overlayImageScrollView;
+
+@property (nonatomic, retain) ImageAnalyser *imageAnalyser;
 
 - (IBAction)sliderAction:(id)sender;
 
