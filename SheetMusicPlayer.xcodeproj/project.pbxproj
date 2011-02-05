@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5C21E8A912F5E542009E67D7 /* StaveLocator.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C21E8A812F5E542009E67D7 /* StaveLocator.m */; };
+		5C21E8B012F6FE52009E67D7 /* ImageAnalyser.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C21E8AF12F6FE52009E67D7 /* ImageAnalyser.m */; };
+		5C43D2D012E9E90C005639EA /* ImageCalibrationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C43D2CE12E9E90C005639EA /* ImageCalibrationViewController.m */; };
+		5C43D2D112E9E90C005639EA /* ImageCalibrationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5C43D2CF12E9E90C005639EA /* ImageCalibrationViewController.xib */; };
+		5CAA620E12E596A50070CDE0 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CAA620C12E596A50070CDE0 /* MainViewController.m */; };
+		5CAA620F12E596A50070CDE0 /* MainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5CAA620D12E596A50070CDE0 /* MainViewController.xib */; };
+		5CAB0B1B12F2C01000CF9320 /* OverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CAB0B1A12F2C01000CF9320 /* OverlayView.m */; };
 		5CF9CB5D12E33C0200AAFCD0 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CF9CB5C12E33C0200AAFCD0 /* UIKit.framework */; };
 		5CF9CB5F12E33C0200AAFCD0 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CF9CB5E12E33C0200AAFCD0 /* Foundation.framework */; };
 		5CF9CB6112E33C0200AAFCD0 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CF9CB6012E33C0200AAFCD0 /* CoreGraphics.framework */; };
@@ -23,21 +30,33 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5C21E8A712F5E542009E67D7 /* StaveLocator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StaveLocator.h; sourceTree = "<group>"; };
+		5C21E8A812F5E542009E67D7 /* StaveLocator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StaveLocator.m; sourceTree = "<group>"; };
+		5C21E8AE12F6FE52009E67D7 /* ImageAnalyser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ImageAnalyser.h; path = ../ImageAnalyser.h; sourceTree = "<group>"; };
+		5C21E8AF12F6FE52009E67D7 /* ImageAnalyser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ImageAnalyser.m; path = ../ImageAnalyser.m; sourceTree = "<group>"; };
+		5C43D2CD12E9E90C005639EA /* ImageCalibrationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ImageCalibrationViewController.h; path = SheetMusicPlayer.xcodeproj/ImageCalibrationViewController.h; sourceTree = SOURCE_ROOT; };
+		5C43D2CE12E9E90C005639EA /* ImageCalibrationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ImageCalibrationViewController.m; path = SheetMusicPlayer.xcodeproj/ImageCalibrationViewController.m; sourceTree = SOURCE_ROOT; };
+		5C43D2CF12E9E90C005639EA /* ImageCalibrationViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ImageCalibrationViewController.xib; path = SheetMusicPlayer.xcodeproj/ImageCalibrationViewController.xib; sourceTree = SOURCE_ROOT; };
+		5CAA620B12E596A50070CDE0 /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
+		5CAA620C12E596A50070CDE0 /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
+		5CAA620D12E596A50070CDE0 /* MainViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainViewController.xib; sourceTree = "<group>"; };
+		5CAB0B1912F2C01000CF9320 /* OverlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OverlayView.h; sourceTree = "<group>"; };
+		5CAB0B1A12F2C01000CF9320 /* OverlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OverlayView.m; sourceTree = "<group>"; };
 		5CF9CB5812E33C0200AAFCD0 /* SheetMusicPlayer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SheetMusicPlayer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5CF9CB5C12E33C0200AAFCD0 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		5CF9CB5E12E33C0200AAFCD0 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		5CF9CB6012E33C0200AAFCD0 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		5CF9CB6412E33C0200AAFCD0 /* SheetMusicPlayer-Info.plist */ = {isa = PBXFileReference; path = "SheetMusicPlayer-Info.plist"; sourceTree = "<group>"; };
+		5CF9CB6412E33C0200AAFCD0 /* SheetMusicPlayer-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "SheetMusicPlayer-Info.plist"; sourceTree = "<group>"; };
 		5CF9CB6612E33C0200AAFCD0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		5CF9CB6812E33C0200AAFCD0 /* SheetMusicPlayer-Prefix.pch */ = {isa = PBXFileReference; path = "SheetMusicPlayer-Prefix.pch"; sourceTree = "<group>"; };
+		5CF9CB6812E33C0200AAFCD0 /* SheetMusicPlayer-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SheetMusicPlayer-Prefix.pch"; sourceTree = "<group>"; };
 		5CF9CB6912E33C0200AAFCD0 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		5CF9CB6B12E33C0200AAFCD0 /* SheetMusicPlayerAppDelegate.h */ = {isa = PBXFileReference; path = SheetMusicPlayerAppDelegate.h; sourceTree = "<group>"; };
+		5CF9CB6B12E33C0200AAFCD0 /* SheetMusicPlayerAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SheetMusicPlayerAppDelegate.h; sourceTree = "<group>"; };
 		5CF9CB6C12E33C0200AAFCD0 /* SheetMusicPlayerAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SheetMusicPlayerAppDelegate.m; sourceTree = "<group>"; };
 		5CF9CB6F12E33C0200AAFCD0 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainWindow.xib; sourceTree = "<group>"; };
 		5CF9CB7612E33C0200AAFCD0 /* SheetMusicPlayerTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SheetMusicPlayerTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
-		5CF9CB7C12E33C0200AAFCD0 /* SheetMusicPlayerTests-Info.plist */ = {isa = PBXFileReference; path = "SheetMusicPlayerTests-Info.plist"; sourceTree = "<group>"; };
+		5CF9CB7C12E33C0200AAFCD0 /* SheetMusicPlayerTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "SheetMusicPlayerTests-Info.plist"; sourceTree = "<group>"; };
 		5CF9CB7E12E33C0200AAFCD0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		5CF9CB8012E33C0200AAFCD0 /* SheetMusicPlayerTests-Prefix.pch */ = {isa = PBXFileReference; path = "SheetMusicPlayerTests-Prefix.pch"; sourceTree = "<group>"; };
+		5CF9CB8012E33C0200AAFCD0 /* SheetMusicPlayerTests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SheetMusicPlayerTests-Prefix.pch"; sourceTree = "<group>"; };
 		5CF9CB8112E33C0200AAFCD0 /* SheetMusicPlayerTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SheetMusicPlayerTests.h; sourceTree = "<group>"; };
 		5CF9CB8312E33C0200AAFCD0 /* SheetMusicPlayerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SheetMusicPlayerTests.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -98,8 +117,20 @@
 		5CF9CB6212E33C0200AAFCD0 /* SheetMusicPlayer */ = {
 			isa = PBXGroup;
 			children = (
+				5CAA620B12E596A50070CDE0 /* MainViewController.h */,
+				5CAA620C12E596A50070CDE0 /* MainViewController.m */,
+				5CAA620D12E596A50070CDE0 /* MainViewController.xib */,
 				5CF9CB6B12E33C0200AAFCD0 /* SheetMusicPlayerAppDelegate.h */,
 				5CF9CB6C12E33C0200AAFCD0 /* SheetMusicPlayerAppDelegate.m */,
+				5C43D2CD12E9E90C005639EA /* ImageCalibrationViewController.h */,
+				5C43D2CE12E9E90C005639EA /* ImageCalibrationViewController.m */,
+				5C43D2CF12E9E90C005639EA /* ImageCalibrationViewController.xib */,
+				5CAB0B1912F2C01000CF9320 /* OverlayView.h */,
+				5CAB0B1A12F2C01000CF9320 /* OverlayView.m */,
+				5C21E8AE12F6FE52009E67D7 /* ImageAnalyser.h */,
+				5C21E8AF12F6FE52009E67D7 /* ImageAnalyser.m */,
+				5C21E8A712F5E542009E67D7 /* StaveLocator.h */,
+				5C21E8A812F5E542009E67D7 /* StaveLocator.m */,
 				5CF9CB6E12E33C0200AAFCD0 /* MainWindow.xib */,
 				5CF9CB6312E33C0200AAFCD0 /* Supporting Files */,
 			);
@@ -205,6 +236,8 @@
 			files = (
 				5CF9CB6712E33C0200AAFCD0 /* InfoPlist.strings in Resources */,
 				5CF9CB7012E33C0200AAFCD0 /* MainWindow.xib in Resources */,
+				5CAA620F12E596A50070CDE0 /* MainViewController.xib in Resources */,
+				5C43D2D112E9E90C005639EA /* ImageCalibrationViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -242,6 +275,11 @@
 			files = (
 				5CF9CB6A12E33C0200AAFCD0 /* main.m in Sources */,
 				5CF9CB6D12E33C0200AAFCD0 /* SheetMusicPlayerAppDelegate.m in Sources */,
+				5CAA620E12E596A50070CDE0 /* MainViewController.m in Sources */,
+				5C43D2D012E9E90C005639EA /* ImageCalibrationViewController.m in Sources */,
+				5CAB0B1B12F2C01000CF9320 /* OverlayView.m in Sources */,
+				5C21E8A912F5E542009E67D7 /* StaveLocator.m in Sources */,
+				5C21E8B012F6FE52009E67D7 /* ImageAnalyser.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -291,9 +329,10 @@
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 4.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 3.2;
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -304,9 +343,10 @@
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 4.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 3.2;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				SDKROOT = iphoneos;
 			};
@@ -321,6 +361,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SheetMusicPlayer/SheetMusicPlayer-Prefix.pch";
 				INFOPLIST_FILE = "SheetMusicPlayer/SheetMusicPlayer-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 3.2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -334,6 +375,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SheetMusicPlayer/SheetMusicPlayer-Prefix.pch";
 				INFOPLIST_FILE = "SheetMusicPlayer/SheetMusicPlayer-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 3.2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				VALIDATE_PRODUCT = YES;
 				WRAPPER_EXTENSION = app;
@@ -403,6 +445,7 @@
 				5CF9CB8912E33C0200AAFCD0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		5CF9CB8A12E33C0200AAFCD0 /* Build configuration list for PBXNativeTarget "SheetMusicPlayerTests" */ = {
 			isa = XCConfigurationList;
@@ -411,6 +454,7 @@
 				5CF9CB8C12E33C0200AAFCD0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

@@ -135,6 +135,7 @@
     
     self.sourceImageView = [[UIImageView alloc] initWithFrame:[containerView frame]];
     self.sourceImageView.contentMode = UIViewContentModeScaleAspectFit;
+    self.sourceImageView.backgroundColor = [UIColor blackColor];
     self.sourceImageView.image = imageAnalyser.sourceImage;
     [self.containerView addSubview:sourceImageView];
 
@@ -166,6 +167,7 @@
     
     self.sobelImageView = [[UIImageView alloc] initWithFrame:[containerView frame]];
     self.sobelImageView.contentMode = UIViewContentModeScaleAspectFit;
+    self.sobelImageView.backgroundColor = [UIColor blackColor];
     
     self.sobelImageView.image = [imageAnalyser obtainSobelImage];
     //self.sobelImageView.image = [self obtainSobelImageWithThreshold:kDefaultThreshold];
@@ -189,7 +191,7 @@
     }
 
     self.overlayView = [[OverlayView alloc] initWithImageView:[self sobelImageView]];
-    [self.sobelImageView addSubview:self.overlayView];
+    [self.overlayImageScrollView addSubview:overlayView];
     [self.imageAnalyser setDelegate:self.overlayView];
     
     [self.imageAnalyser locateStavesUsingThreshold:kDefaultThreshold];
@@ -241,6 +243,15 @@
 }
 
 
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    self.overlayView.zoomScale = scrollView.zoomScale;
+    self.overlayView.contentOffset = scrollView.contentOffset;
+    
+    [self.overlayView setNeedsDisplay];
+}
+
+
 #pragma mark - Selector implementations
 
 - (void)cancelAction:(id)sender
@@ -261,6 +272,7 @@
 
 - (IBAction)sliderAction:(id)sender
 {
+    [self.overlayView.plotPoints removeAllObjects];
     [self.imageAnalyser locateStavesUsingThreshold:[slider value]];
 }
 
