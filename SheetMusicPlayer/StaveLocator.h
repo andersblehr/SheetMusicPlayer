@@ -1,5 +1,5 @@
 //
-//  MusicManager.h
+//  StaveLocator.h
 //  SheetMusicPlayer
 //
 //  Created by Anders Blehr on 30.01.11.
@@ -7,15 +7,21 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "Stave.h"
 
 @interface StaveLocator : NSObject {
 @private
-    NSMutableArray *candidateStavePoints;
-    NSMutableArray *identifiedStavePoints;
-    float mostLikelyStaveInterval;
-    float lessLikelyStaveInterval;
-    int staveCount;
+    int imageHeight;
+    int currentImageOffset;
+    
+    NSMutableDictionary *pointArrays;
+    Stave *firstStave;
 }
 
-- (void)assessCandidateStaveLine:(CGPoint)point;
+@property (nonatomic, assign) int currentImageOffset;
+@property (nonatomic, retain) Stave *firstStave;
+
+- (void)processStaveVote:(CGPoint)point;
+- (id)initWithImageHeight:(int)height;
+
 @end

@@ -17,14 +17,12 @@
     CGPoint defaultOrigin;
     CGPoint contentOffset;
     
-    UIColor *plotColour;
-    NSMutableArray *plotPoints;
+    NSMutableDictionary *plotPointsWithColour;
 }
 
 @property (nonatomic, assign) float zoomScale;
 @property (nonatomic, assign) CGPoint contentOffset;
-@property (nonatomic, retain) UIColor *plotColour;
-@property (nonatomic, retain) NSMutableArray *plotPoints;
+@property (nonatomic, retain) NSMutableDictionary *plotPointsWithColour;
 
 - (void)plotImagePoint:(CGPoint)imagePoint;
 - (id)initWithImageView:(UIImageView *)imageView;

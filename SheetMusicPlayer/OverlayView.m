@@ -13,8 +13,7 @@
 
 @synthesize zoomScale;
 @synthesize contentOffset;
-@synthesize plotColour;
-@synthesize plotPoints;
+@synthesize plotPointsWithColour;
 
 
 - (void)plotImagePoint:(CGPoint)imagePoint
@@ -25,9 +24,15 @@
 
 - (void)plotImagePoint:(CGPoint)imagePoint withColour:(UIColor *)colour
 {
-    self.plotColour = colour;
+    NSMutableArray *pointArray = [plotPointsWithColour objectForKey:colour];
     
-    [plotPoints addObject:[NSValue valueWithCGPoint:CGPointMake(imagePoint.x, imagePoint.y)]];
+    if (!pointArray) {
+        pointArray = [[NSMutableArray alloc] init];
+        [plotPointsWithColour setObject:pointArray forKey:colour];
+        [pointArray release];
+    }
+    
+    [pointArray addObject:[NSValue valueWithCGPoint:imagePoint]];
     
     [self setNeedsDisplay];
 }
@@ -71,8 +76,10 @@
         self.backgroundColor = [UIColor clearColor];
         
         self.zoomScale = 1.f;
-        self.plotPoints = [[NSMutableArray alloc] init];
-        self.plotColour = [UIColor yellowColor];
+        
+        NSMutableDictionary *newDictionary = [[NSMutableDictionary alloc] init];
+        self.plotPointsWithColour = newDictionary;
+        [newDictionary release];
     }
     
     return self;
@@ -83,20 +90,26 @@
 {
     self.frame = CGRectMake(contentOffset.x, contentOffset.y, self.frame.size.width, self.frame.size.height);
 
-    if ([plotPoints count] > 0) {
-        [self.plotColour set];
+    UIColor *plotColour;
+    NSEnumerator *enumerator = [plotPointsWithColour keyEnumerator];
+
+    while ((plotColour = [enumerator nextObject])) {
+        [plotColour set];
+        
+        NSArray *plotPoints = [plotPointsWithColour objectForKey:plotColour];
         
         for (int i = 0; i < [plotPoints count]; i++) {
             CGPoint point = [[plotPoints objectAtIndex:i] CGPointValue];
             
             float translatedPointX = scaleFactor * zoomScale * point.x + zoomScale * defaultOrigin.x - contentOffset.x;
             float translatedPointY = scaleFactor * zoomScale * point.y + zoomScale * defaultOrigin.y - contentOffset.y;
-
+            
             CGPoint translatedPoint = CGPointMake(translatedPointX, translatedPointY);
+            int radius = [plotColour isEqual:[UIColor redColor]] ? 2 * zoomScale : zoomScale;
             
-            UIBezierPath *circle = [UIBezierPath bezierPathWithArcCenter:translatedPoint radius:zoomScale startAngle:0.f endAngle:(2 * M_PI) clockwise:YES];
+            UIBezierPath *circle = [UIBezierPath bezierPathWithArcCenter:translatedPoint radius:radius startAngle:0.f endAngle:(2 * M_PI) clockwise:YES];
             
-            circle.lineWidth = 0;
+            [circle setLineWidth:0];
             [circle fill];
             [circle stroke];
         }
@@ -106,9 +119,8 @@
 
 - (void)dealloc
 {
-    plotColour = nil;
+    [plotPointsWithColour release];
     
-    [plotPoints release];
     [super dealloc];
 }
 

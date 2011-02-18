@@ -14,7 +14,10 @@
 @implementation ImageCalibrationViewController
 
 @dynamic sourceImage;
-@synthesize slider;
+@synthesize thresholdSlider;
+@synthesize positionSlider;
+@synthesize thresholdLabel;
+@synthesize positionLabel;
 
 @synthesize containerView;
 @synthesize sourceImageView;
@@ -25,8 +28,8 @@
 @synthesize imageAnalyser;
 
 
-#define kMaxImageDimension 2048.f
-#define kDefaultThreshold 0.33f
+//#define kDefaultThreshold 0.35f
+#define kDefaultPosition 0.5f
 #define kMaxZoomScale 5.f
 
 
@@ -37,7 +40,9 @@
     if (self.imageAnalyser) {
         self.imageAnalyser.sourceImage = theSourceImage;
     } else {
-        self.imageAnalyser = [[ImageAnalyser alloc] initWithImage:theSourceImage];
+        ImageAnalyser *newImageAnalyser = [[ImageAnalyser alloc] initWithImage:theSourceImage];
+        self.imageAnalyser = newImageAnalyser;
+        [newImageAnalyser release];
     }
 }
 
@@ -63,9 +68,21 @@
     [self.navigationController.navigationBar setTranslucent:YES];
     [self.navigationController setNavigationBarHidden:NO animated:YES];
     
-    [self.slider setValue:kDefaultThreshold];
-    [self.slider setHidden:NO];
-    [self.containerView addSubview:slider];
+    [self.thresholdSlider setValue:self.imageAnalyser.sobelThreshold];
+    [self.thresholdSlider setHidden:NO];
+    [self.thresholdLabel setTextColor:[UIColor whiteColor]];
+    [self.thresholdLabel setText:[NSString stringWithFormat:@"%1.2f", self.imageAnalyser.sobelThreshold]];
+    [self.thresholdLabel setHidden:NO];
+    [self.containerView addSubview:thresholdSlider];
+    [self.containerView addSubview:thresholdLabel];
+
+    [self.positionSlider setValue:kDefaultPosition];
+    [self.positionSlider setHidden:NO];
+    [self.positionLabel setTextColor:[UIColor whiteColor]];
+    [self.positionLabel setText:[NSString stringWithFormat:@"%1.2f", kDefaultPosition]];
+    [self.positionLabel setHidden:NO];
+    [self.containerView addSubview:positionSlider];
+    [self.containerView addSubview:positionLabel];
 }
 
 
@@ -85,7 +102,11 @@
 
 - (void)dealloc
 {
-    [self.slider removeFromSuperview];
+    [self.thresholdSlider removeFromSuperview];
+    [self.thresholdLabel removeFromSuperview];
+    [self.positionSlider removeFromSuperview];
+    [self.positionLabel removeFromSuperview];
+    
     [self.sobelImageView removeFromSuperview];
     
     self.sobelImageView = nil;
@@ -130,16 +151,25 @@
     self.navigationItem.rightBarButtonItem = playButton;
     [playButton release];
     
-    self.containerView = [[[UIView alloc] initWithFrame:[self.view frame]] autorelease];
-    self.view = containerView;
+    UIView *newContainerView = [[UIView alloc] initWithFrame:[self.view frame]];
+    self.containerView = newContainerView;
+    [newContainerView release];
+
+    UIImageView *newSourceImageView = [[UIImageView alloc] initWithFrame:[self.containerView frame]];
+    self.sourceImageView = newSourceImageView;
+    [newSourceImageView release];
     
-    self.sourceImageView = [[UIImageView alloc] initWithFrame:[containerView frame]];
+    UIScrollView *newOverlayImageScrollView = [[UIScrollView alloc] initWithFrame:[self.containerView frame]];
+    self.overlayImageScrollView = newOverlayImageScrollView;
+    [newOverlayImageScrollView release];
+    
+    self.view = self.containerView;
+    
     self.sourceImageView.contentMode = UIViewContentModeScaleAspectFit;
     self.sourceImageView.backgroundColor = [UIColor blackColor];
     self.sourceImageView.image = imageAnalyser.sourceImage;
     [self.containerView addSubview:sourceImageView];
-
-    self.overlayImageScrollView = [[UIScrollView alloc] initWithFrame:[containerView frame]];
+    
     self.overlayImageScrollView.contentSize = containerView.frame.size;
     self.overlayImageScrollView.minimumZoomScale = 1.0f;
     self.overlayImageScrollView.maximumZoomScale = kMaxZoomScale;
@@ -165,12 +195,14 @@
 {
     [super viewDidAppear:animated];
     
-    self.sobelImageView = [[UIImageView alloc] initWithFrame:[containerView frame]];
+    UIImageView *newSobelImageView = [[UIImageView alloc] initWithFrame:[self.containerView frame]];
+    self.sobelImageView = newSobelImageView;
+    [newSobelImageView release];
+    
     self.sobelImageView.contentMode = UIViewContentModeScaleAspectFit;
     self.sobelImageView.backgroundColor = [UIColor blackColor];
     
     self.sobelImageView.image = [imageAnalyser obtainSobelImage];
-    //self.sobelImageView.image = [self obtainSobelImageWithThreshold:kDefaultThreshold];
     [self.overlayImageScrollView addSubview:sobelImageView];
     [self.containerView insertSubview:overlayImageScrollView belowSubview:sourceImageView];
     
@@ -190,11 +222,15 @@
         [UIView commitAnimations];
     }
 
-    self.overlayView = [[OverlayView alloc] initWithImageView:[self sobelImageView]];
+    OverlayView *newOverlayView = [[OverlayView alloc] initWithImageView:self.sobelImageView];
+    self.overlayView = newOverlayView;
+    [newOverlayView release];
+    
     [self.overlayImageScrollView addSubview:overlayView];
     [self.imageAnalyser setDelegate:self.overlayView];
     
-    [self.imageAnalyser locateStavesUsingThreshold:kDefaultThreshold];
+    //[self.imageAnalyser plotInkPointsAtOffset:kDefaultPosition];
+    [self.imageAnalyser locateStaves];
 }
 
 
@@ -216,11 +252,17 @@
 - (void)singleTapAction:(UITapGestureRecognizer *)singleTapRecogniser
 {
     if ([self.navigationController isNavigationBarHidden]) {
-        [self.slider setHidden:NO];
         [self.navigationController setNavigationBarHidden:NO animated:YES];
+        [self.thresholdSlider setHidden:NO];
+        [self.thresholdLabel setHidden:NO];
+        [self.positionSlider setHidden:NO];
+        [self.positionLabel setHidden:NO];
     } else {
-        [self.slider setHidden:YES];
         [self.navigationController setNavigationBarHidden:YES animated:YES];
+        [self.thresholdSlider setHidden:YES];
+        [self.thresholdLabel setHidden:YES];
+        [self.positionSlider setHidden:YES];
+        [self.positionLabel setHidden:YES];
     }
 }
 
@@ -256,7 +298,10 @@
 
 - (void)cancelAction:(id)sender
 {
-    [self.slider setHidden:YES];
+    [self.thresholdSlider setHidden:YES];
+    [self.thresholdLabel setHidden:YES];
+    [self.positionSlider setHidden:YES];
+    [self.positionLabel setHidden:YES];
 
     [self.navigationController popViewControllerAnimated:YES];
 }
@@ -264,7 +309,8 @@
 
 - (void)playAction:(id)sender
 {
-
+    [self.overlayView.plotPointsWithColour removeAllObjects];
+    [self.imageAnalyser locateStaves];
 }
 
 
@@ -272,8 +318,12 @@
 
 - (IBAction)sliderAction:(id)sender
 {
-    [self.overlayView.plotPoints removeAllObjects];
-    [self.imageAnalyser locateStavesUsingThreshold:[slider value]];
+    [self.thresholdLabel setText:[NSString stringWithFormat:@"%1.2f", [thresholdSlider value]]];
+    [self.positionLabel setText:[NSString stringWithFormat:@"%1.2f", [positionSlider value]]];
+    
+    [self.overlayView.plotPointsWithColour removeAllObjects];
+    [self.imageAnalyser setSobelThreshold:[thresholdSlider value]];
+    [self.imageAnalyser plotInkPointsAtOffset:[positionSlider value]];
 }
 
 @end

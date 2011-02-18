@@ -13,7 +13,10 @@
 
 @interface ImageCalibrationViewController : UIViewController <UIScrollViewDelegate, UIGestureRecognizerDelegate> {
 @private
-    UISlider *slider;
+    UISlider *thresholdSlider;
+    UISlider *positionSlider;
+    UILabel *thresholdLabel;
+    UILabel *positionLabel;
     
     UIView *containerView;
     UIImageView *sourceImageView;
@@ -25,7 +28,10 @@
 }
 
 @property (nonatomic, retain) UIImage *sourceImage;
-@property (nonatomic, retain) IBOutlet UISlider *slider;
+@property (nonatomic, retain) IBOutlet UISlider *thresholdSlider;
+@property (nonatomic, retain) IBOutlet UISlider *positionSlider;
+@property (nonatomic, retain) IBOutlet UILabel *thresholdLabel;
+@property (nonatomic, retain) IBOutlet UILabel *positionLabel;
 
 @property (nonatomic, retain) UIView *containerView;
 @property (nonatomic, retain) UIImageView *sourceImageView;
