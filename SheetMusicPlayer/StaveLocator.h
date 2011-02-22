@@ -7,21 +7,32 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "SobelAnalyser.h"
 #import "Stave.h"
 
 @interface StaveLocator : NSObject {
 @private
-    int imageHeight;
-    int currentImageOffset;
+    SobelAnalyser *sobelAnalyser;
+    
+    size_t imageWidth;
+    size_t imageHeight;
+    size_t currentImageOffset;
+    
+    int xSignalLeft;
+    int xSignalRight;
+    int signalThreshold;
+    int votesThreshold;
+    BOOL minimumSignalDetected;
     
     NSMutableDictionary *pointArrays;
+    NSMutableDictionary *candidateArrays;
     Stave *firstStave;
 }
 
-@property (nonatomic, assign) int currentImageOffset;
 @property (nonatomic, retain) Stave *firstStave;
 
-- (void)processStaveVote:(CGPoint)point;
-- (id)initWithImageHeight:(int)height;
+- (BOOL)imageContainsStaves;
+- (void)locateStaves;
+- (id)initWithSobelAnalyser:(SobelAnalyser *)analyser;
 
 @end

@@ -7,10 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5C1007C5131049E000A4A85D /* MusicRecognitionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C1007C4131049E000A4A85D /* MusicRecognitionViewController.m */; };
+		5C145F411302EEC8003A3FAA /* Stave.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C145F401302EEC8003A3FAA /* Stave.m */; };
+		5C18721D130A86A300D35058 /* MusicRecogniser.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C18721C130A86A300D35058 /* MusicRecogniser.m */; };
 		5C21E8A912F5E542009E67D7 /* StaveLocator.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C21E8A812F5E542009E67D7 /* StaveLocator.m */; };
-		5C21E8B012F6FE52009E67D7 /* ImageAnalyser.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C21E8AF12F6FE52009E67D7 /* ImageAnalyser.m */; };
-		5C43D2D012E9E90C005639EA /* ImageCalibrationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C43D2CE12E9E90C005639EA /* ImageCalibrationViewController.m */; };
-		5C43D2D112E9E90C005639EA /* ImageCalibrationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5C43D2CF12E9E90C005639EA /* ImageCalibrationViewController.xib */; };
+		5C43D2D112E9E90C005639EA /* MusicRecognitionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5C43D2CF12E9E90C005639EA /* MusicRecognitionViewController.xib */; };
+		5C7AF898131146E900DE4C2C /* SobelAnalyser.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C7AF897131146E900DE4C2C /* SobelAnalyser.m */; };
 		5CAA620E12E596A50070CDE0 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CAA620C12E596A50070CDE0 /* MainViewController.m */; };
 		5CAA620F12E596A50070CDE0 /* MainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5CAA620D12E596A50070CDE0 /* MainViewController.xib */; };
 		5CAB0B1B12F2C01000CF9320 /* OverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CAB0B1A12F2C01000CF9320 /* OverlayView.m */; };
@@ -30,13 +32,17 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5C1007C4131049E000A4A85D /* MusicRecognitionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MusicRecognitionViewController.m; sourceTree = "<group>"; };
+		5C145F3F1302EEC8003A3FAA /* Stave.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Stave.h; sourceTree = "<group>"; };
+		5C145F401302EEC8003A3FAA /* Stave.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Stave.m; sourceTree = "<group>"; };
+		5C18721C130A86A300D35058 /* MusicRecogniser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MusicRecogniser.m; sourceTree = "<group>"; };
 		5C21E8A712F5E542009E67D7 /* StaveLocator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StaveLocator.h; sourceTree = "<group>"; };
 		5C21E8A812F5E542009E67D7 /* StaveLocator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StaveLocator.m; sourceTree = "<group>"; };
-		5C21E8AE12F6FE52009E67D7 /* ImageAnalyser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ImageAnalyser.h; path = ../ImageAnalyser.h; sourceTree = "<group>"; };
-		5C21E8AF12F6FE52009E67D7 /* ImageAnalyser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ImageAnalyser.m; path = ../ImageAnalyser.m; sourceTree = "<group>"; };
-		5C43D2CD12E9E90C005639EA /* ImageCalibrationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ImageCalibrationViewController.h; path = SheetMusicPlayer.xcodeproj/ImageCalibrationViewController.h; sourceTree = SOURCE_ROOT; };
-		5C43D2CE12E9E90C005639EA /* ImageCalibrationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ImageCalibrationViewController.m; path = SheetMusicPlayer.xcodeproj/ImageCalibrationViewController.m; sourceTree = SOURCE_ROOT; };
-		5C43D2CF12E9E90C005639EA /* ImageCalibrationViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ImageCalibrationViewController.xib; path = SheetMusicPlayer.xcodeproj/ImageCalibrationViewController.xib; sourceTree = SOURCE_ROOT; };
+		5C21E8AE12F6FE52009E67D7 /* MusicRecogniser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MusicRecogniser.h; path = ../MusicRecogniser.h; sourceTree = "<group>"; };
+		5C43D2CD12E9E90C005639EA /* MusicRecognitionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MusicRecognitionViewController.h; path = SheetMusicPlayer.xcodeproj/MusicRecognitionViewController.h; sourceTree = SOURCE_ROOT; };
+		5C43D2CF12E9E90C005639EA /* MusicRecognitionViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MusicRecognitionViewController.xib; path = SheetMusicPlayer.xcodeproj/MusicRecognitionViewController.xib; sourceTree = SOURCE_ROOT; };
+		5C7AF896131146E900DE4C2C /* SobelAnalyser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SobelAnalyser.h; path = ../SobelAnalyser.h; sourceTree = "<group>"; };
+		5C7AF897131146E900DE4C2C /* SobelAnalyser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SobelAnalyser.m; path = ../SobelAnalyser.m; sourceTree = "<group>"; };
 		5CAA620B12E596A50070CDE0 /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
 		5CAA620C12E596A50070CDE0 /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
 		5CAA620D12E596A50070CDE0 /* MainViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainViewController.xib; sourceTree = "<group>"; };
@@ -122,15 +128,19 @@
 				5CAA620D12E596A50070CDE0 /* MainViewController.xib */,
 				5CF9CB6B12E33C0200AAFCD0 /* SheetMusicPlayerAppDelegate.h */,
 				5CF9CB6C12E33C0200AAFCD0 /* SheetMusicPlayerAppDelegate.m */,
-				5C43D2CD12E9E90C005639EA /* ImageCalibrationViewController.h */,
-				5C43D2CE12E9E90C005639EA /* ImageCalibrationViewController.m */,
-				5C43D2CF12E9E90C005639EA /* ImageCalibrationViewController.xib */,
+				5C43D2CD12E9E90C005639EA /* MusicRecognitionViewController.h */,
+				5C1007C4131049E000A4A85D /* MusicRecognitionViewController.m */,
+				5C43D2CF12E9E90C005639EA /* MusicRecognitionViewController.xib */,
 				5CAB0B1912F2C01000CF9320 /* OverlayView.h */,
 				5CAB0B1A12F2C01000CF9320 /* OverlayView.m */,
-				5C21E8AE12F6FE52009E67D7 /* ImageAnalyser.h */,
-				5C21E8AF12F6FE52009E67D7 /* ImageAnalyser.m */,
+				5C21E8AE12F6FE52009E67D7 /* MusicRecogniser.h */,
+				5C18721C130A86A300D35058 /* MusicRecogniser.m */,
+				5C7AF896131146E900DE4C2C /* SobelAnalyser.h */,
+				5C7AF897131146E900DE4C2C /* SobelAnalyser.m */,
 				5C21E8A712F5E542009E67D7 /* StaveLocator.h */,
 				5C21E8A812F5E542009E67D7 /* StaveLocator.m */,
+				5C145F3F1302EEC8003A3FAA /* Stave.h */,
+				5C145F401302EEC8003A3FAA /* Stave.m */,
 				5CF9CB6E12E33C0200AAFCD0 /* MainWindow.xib */,
 				5CF9CB6312E33C0200AAFCD0 /* Supporting Files */,
 			);
@@ -237,7 +247,7 @@
 				5CF9CB6712E33C0200AAFCD0 /* InfoPlist.strings in Resources */,
 				5CF9CB7012E33C0200AAFCD0 /* MainWindow.xib in Resources */,
 				5CAA620F12E596A50070CDE0 /* MainViewController.xib in Resources */,
-				5C43D2D112E9E90C005639EA /* ImageCalibrationViewController.xib in Resources */,
+				5C43D2D112E9E90C005639EA /* MusicRecognitionViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -276,10 +286,12 @@
 				5CF9CB6A12E33C0200AAFCD0 /* main.m in Sources */,
 				5CF9CB6D12E33C0200AAFCD0 /* SheetMusicPlayerAppDelegate.m in Sources */,
 				5CAA620E12E596A50070CDE0 /* MainViewController.m in Sources */,
-				5C43D2D012E9E90C005639EA /* ImageCalibrationViewController.m in Sources */,
 				5CAB0B1B12F2C01000CF9320 /* OverlayView.m in Sources */,
 				5C21E8A912F5E542009E67D7 /* StaveLocator.m in Sources */,
-				5C21E8B012F6FE52009E67D7 /* ImageAnalyser.m in Sources */,
+				5C145F411302EEC8003A3FAA /* Stave.m in Sources */,
+				5C18721D130A86A300D35058 /* MusicRecogniser.m in Sources */,
+				5C1007C5131049E000A4A85D /* MusicRecognitionViewController.m in Sources */,
+				5C7AF898131146E900DE4C2C /* SobelAnalyser.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

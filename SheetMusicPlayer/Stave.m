@@ -22,32 +22,7 @@
 @synthesize lineSpacingCentre;
 @synthesize lineSpacingRight;
 
-@synthesize candidateArrays;
 @synthesize nextStave;
-
-
-#pragma mark - 'Public' methods
-
-- (void)setCandidateArray:(unsigned char *)pointArray forX:(NSNumber *)x
-{
-    NSMutableArray *candidateArray = [candidateArrays objectForKey:x];
-    
-    if (!candidateArray) {
-        candidateArray = [[NSMutableArray alloc] init];
-        
-        [self.candidateArrays setObject:candidateArray forKey:x];
-        [candidateArray release];
-    } else {
-        [candidateArray removeAllObjects];
-    }
-    
-    for (int y = 1; y < imageHeight - 1; y++) {
-        if (pointArray[y - 1] + pointArray[y] + pointArray[y + 1] >= 5) {
-            [candidateArray addObject:[NSNumber numberWithInt:y]];
-            y += 3;
-        }
-    }
-}
 
 
 #pragma mark - Lifecycle & housekeeping
@@ -66,10 +41,6 @@
     
     if (self) {
         imageHeight = height;
-        
-        NSMutableDictionary *newDictionary = [[NSMutableDictionary alloc] init];
-        self.candidateArrays = newDictionary;
-        [newDictionary release];
     }
     
     return self;
@@ -78,8 +49,6 @@
 
 - (void)dealloc
 {
-    [candidateArrays release];
-    
     [super dealloc];
 }
 

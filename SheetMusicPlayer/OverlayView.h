@@ -7,10 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "ImageAnalyser.h"
+#import "SobelAnalyser.h"
 
 
-@interface OverlayView : UIView <ImageAnalyserDelegate> {
+@interface OverlayView : UIView <SobelAnalyserDelegate> {
 @private
     float scaleFactor;
     float zoomScale;

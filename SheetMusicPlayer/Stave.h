@@ -23,7 +23,6 @@
     int lineSpacingCentre;
     int lineSpacingRight;
     
-    NSMutableDictionary *candidateArrays;
     Stave *nextStave;
 }
 
@@ -38,10 +37,8 @@
 @property (nonatomic, assign) int lineSpacingCentre;
 @property (nonatomic, assign) int lineSpacingRight;
 
-@property (nonatomic, retain) NSMutableDictionary *candidateArrays;
 @property (nonatomic, retain) Stave *nextStave;
 
-- (void)setCandidateArray:(unsigned char *)pointArray forX:(NSNumber *)x;
 - (id)initWithImageHeight:(int)height;
 
 @end

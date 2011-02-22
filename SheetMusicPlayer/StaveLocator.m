@@ -7,76 +7,173 @@
 //
 
 #import "StaveLocator.h"
+#import "SobelAnalyser.h"
 #import "Stave.h"
+
+#define kDefaultSignalThreshold 5
+#define kDefaultVotesThreshold 5
 
 
 @implementation StaveLocator
 
-@synthesize currentImageOffset;
-@dynamic firstStave;
+@synthesize firstStave;
 
 
-#pragma mark - Getters & setters for @dynamic properties
+#pragma mark - 'Private' methods
 
-- (Stave *)firstStave
+- (BOOL)detectsMinimumSignal
 {
-    if (!firstStave) {
-        firstStave = [[Stave alloc] initWithImageHeight:imageHeight];
-
-        NSNumber *x;
-        NSEnumerator *enumerator = [pointArrays keyEnumerator];
+    BOOL detectedSignalLeft = minimumSignalDetected;
+    BOOL detectedSignalRight = minimumSignalDetected;
+    
+    while ((!detectedSignalLeft || !detectedSignalRight) && xSignalLeft < 50 && xSignalRight > 50) {
+        int signalCountLeft = 0;
+        int signalCountRight = 0;
         
-        while ((x = [enumerator nextObject])) {
-            unsigned char *pointArray = [[pointArrays objectForKey:x] pointerValue];
+        for (int y = 0; y < imageHeight - 1; y++) {
+            if (!detectedSignalLeft) {
+                CGPoint point1 = CGPointMake((float) xSignalLeft      / 100 * imageWidth, y);
+                CGPoint point2 = CGPointMake((float)(xSignalLeft + 1) / 100 * imageWidth, y);
+                
+                if ([sobelAnalyser didEnterInkFromTopAtPoint:point1] && [sobelAnalyser didEnterInkFromTopAtPoint:point2]) {
+                    signalCountLeft++;
+                    
+                    detectedSignalLeft = (signalCountLeft == signalThreshold);
+                }
+            }
             
-            [firstStave setCandidateArray:pointArray forX:x];
+            if (!detectedSignalRight) {
+                CGPoint point1 = CGPointMake((float) xSignalRight      / 100 * imageWidth, y);
+                CGPoint point2 = CGPointMake((float)(xSignalRight - 1) / 100 * imageWidth, y);
+                
+                if ([sobelAnalyser didEnterInkFromTopAtPoint:point1] && [sobelAnalyser didEnterInkFromTopAtPoint:point2]) {
+                    signalCountRight++;
+                    
+                    detectedSignalRight = (signalCountRight == signalThreshold);
+                }
+            }
+        }
+        
+        if (!detectedSignalLeft) {
+            xSignalLeft++;
+        }
+        
+        if (!detectedSignalRight) {
+            xSignalRight--;
         }
     }
     
-    return firstStave;
+    minimumSignalDetected = (detectedSignalLeft && detectedSignalRight);
+    return minimumSignalDetected;
+}
+
+
+- (void)collectLineVotes
+{
+    int startOffsetLeft = xSignalLeft + 5;
+    int startOffsetRight = xSignalRight - 4;
+    int offsetIncrement = (startOffsetRight - startOffsetLeft) / 3;
+    
+    for (int offset = startOffsetLeft; offset <= startOffsetRight; offset += offsetIncrement) {
+        currentImageOffset = (float)offset / 100 * imageWidth;
+        
+        unsigned char *votesArray = malloc(imageHeight);
+        memset(votesArray, 0, imageHeight);
+        
+        NSNumber *imageOffset = [NSNumber numberWithInt:currentImageOffset];
+        [pointArrays setObject:[NSValue valueWithPointer:votesArray] forKey:imageOffset];
+        
+        int sampleOrigin = offset;
+        int sampleOffset = 0;
+        int sign = -1;
+        
+        while (abs(sampleOffset) <= 10) {
+            sampleOrigin += sign * sampleOffset;
+            sampleOffset++;
+            sign = -sign;
+            
+            for (int y = 0; y < imageHeight; y++) {
+                CGPoint point = CGPointMake((float) sampleOrigin      / 100 * imageWidth, y);
+                
+                if ([sobelAnalyser didEnterInkFromTopAtPoint:point]) {
+                    votesArray[y]++;
+                    [sobelAnalyser.delegate plotImagePoint:point];
+                }
+            }
+        }
+    }
+}
+
+
+- (void)extractPointsWithMostVotes
+{
+    NSNumber *x;
+    NSEnumerator *enumerator = [pointArrays keyEnumerator];
+    
+    while ((x = [enumerator nextObject])) {
+        unsigned char *pointArray = [[pointArrays objectForKey:x] pointerValue];
+        
+        NSMutableArray *candidateArray = [candidateArrays objectForKey:x];
+        
+        if (!candidateArray) {
+            candidateArray = [[NSMutableArray alloc] init];
+            
+            [candidateArrays setObject:candidateArray forKey:x];
+            
+            for (int y = 1; y < imageHeight - 1; y++) {
+                if (pointArray[y - 1] + pointArray[y] + pointArray[y + 1] >= votesThreshold) {
+                    [sobelAnalyser.delegate plotImagePoint:CGPointMake([x intValue], y) withColour:[UIColor greenColor]];
+                    [candidateArray addObject:[NSNumber numberWithInt:y]];
+                    y += 3;
+                }
+            }
+            
+            [candidateArray release];
+        }
+    }
 }
 
 
 #pragma mark - 'Public' methods
 
-- (void)processStaveVote:(CGPoint)point;
+- (BOOL)imageContainsStaves
 {
-    NSNumber *imageOffset = [NSNumber numberWithInt:currentImageOffset];
-    unsigned char *votesArray = [[pointArrays objectForKey:imageOffset] pointerValue];
-    
-    if (!votesArray) {
-        votesArray = malloc(imageHeight);
-        memset(votesArray, 0, imageHeight);
-        
-        [pointArrays setObject:[NSValue valueWithPointer:votesArray] forKey:imageOffset];
+    return [self detectsMinimumSignal];
+}
+
+
+- (void)locateStaves
+{
+    if ([self detectsMinimumSignal]) {
+        [self collectLineVotes];
+        [self extractPointsWithMostVotes];
     }
-    
-    votesArray[(int)point.y]++;
 }
 
 
 #pragma mark - Lifecycle & housekeeping
 
-- (id)init
-{
-    self = [self initWithImageHeight:0];
-    
-    return self;
-}
-
-
-- (id)initWithImageHeight:(int)height
+- (id)initWithSobelAnalyser:(SobelAnalyser *)analyser
 {
     self = [super init];
     
-    if (self) {
-        imageHeight = height;
+    if (self && analyser) {
+        sobelAnalyser = analyser;
+        
+        imageWidth = sobelAnalyser.imageWidth;
+        imageHeight = sobelAnalyser.imageHeight;
         currentImageOffset = 0;
         
+        xSignalLeft = 1;
+        xSignalRight = 99;
+        signalThreshold = kDefaultSignalThreshold;
+        votesThreshold = kDefaultVotesThreshold;
+        minimumSignalDetected = NO;
+        
         pointArrays = [[NSMutableDictionary alloc] init];
-        firstStave = nil;
+        candidateArrays = [[NSMutableDictionary alloc] init];
     }
-       
+    
     return self;
 }
 
@@ -94,6 +191,7 @@
     }
     
     [pointArrays release];
+    [candidateArrays release];
     
     [super dealloc];
 }

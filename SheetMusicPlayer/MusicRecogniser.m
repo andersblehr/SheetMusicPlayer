@@ -6,25 +6,22 @@
 //  Copyright 2011 __MyCompanyName__. All rights reserved.
 //
 
-#import "ImageAnalyser.h"
+#import "MusicRecogniser.h"
+#import "SobelAnalyser.h"
 #import "StaveLocator.h"
 
 
-@implementation ImageAnalyser
+@implementation MusicRecogniser
 
-@synthesize delegate;
 @dynamic sourceImage;
-@synthesize staveLocator;
-
+@dynamic sobelImage;
+@synthesize sobelThreshold;
+@synthesize sobelAnalyser;
 
 #define kMaxImageDimension 2048.f
+#define kDefaultSobelThreshold 0.35f
+#define kSignalThreshold 5
 
-typedef enum {
-    SobelStateOutside = 0,
-    SobelStateEntering,
-    SobelStateInside,
-    SobelStateLeaving
-} SobelState;
 
 #pragma mark - Getters & setters for @dynamic properties
 
@@ -64,11 +61,11 @@ typedef enum {
         
         // Handle UIKit and Quartz's differing coordinate systems
         if (sourceOrientation == UIImageOrientationUp) {
-            imageWidth = cgSourceWidth;        // 
-            imageHeight = cgSourceHeight;      // 
+            imageWidth = cgSourceWidth;
+            imageHeight = cgSourceHeight;
         } else if (sourceOrientation == UIImageOrientationDown) {
-            imageWidth = cgSourceWidth;        // 
-            imageHeight = cgSourceHeight;      // 
+            imageWidth = cgSourceWidth;
+            imageHeight = cgSourceHeight;
             rotationRadians = -M_PI;
         } else if (sourceOrientation == UIImageOrientationRight) {
             imageWidth = cgSourceHeight;
@@ -114,75 +111,78 @@ typedef enum {
 }
 
 
-#pragma mark - 'Private' methods
-
-- (UIImage *)obtainSobelImage
+- (void)setSobelImage:(UIImage *)image
 {
-    for (int y = 0; y < imageHeight; y++) {
-        for (int x = 0; x < imageWidth; x++) {
-            if ((y == 0) || (y == imageHeight - 1) || (x == 0) || (x == imageWidth - 1))
-                sobelArray[x + y * imageWidth] = 127;
-            else {
-                // Obtain X and Y gradients using the Sobel operator
-                int Gx = (    grayscaleArray[(x + 1) + (y - 1) * imageWidth] +
-                          2 * grayscaleArray[(x + 1) + (y    ) * imageWidth] +
-                              grayscaleArray[(x + 1) + (y + 1) * imageWidth]) -
-                         (    grayscaleArray[(x - 1) + (y - 1) * imageWidth] +
-                          2 * grayscaleArray[(x - 1) + (y    ) * imageWidth] +
-                              grayscaleArray[(x - 1) + (y + 1) * imageWidth]);
-                int Gy = (    grayscaleArray[(x - 1) + (y - 1) * imageWidth] +
-                          2 * grayscaleArray[(x    ) + (y - 1) * imageWidth] +
-                              grayscaleArray[(x + 1) + (y - 1) * imageWidth]) -
-                         (    grayscaleArray[(x - 1) + (y + 1) * imageWidth] +
-                          2 * grayscaleArray[(x    ) + (y + 1) * imageWidth] +
-                              grayscaleArray[(x + 1) + (y + 1) * imageWidth]);
-                
-                int G = 128 + Gx + Gy;
-                sobelArray[x + y * imageWidth] = (G > 255) ? 255 : ((G < 0) ? 0 : (unsigned char)G);
-            }
-        }
+    [sobelImage release];
+    sobelImage = nil;
+    
+    if (image) {
+        [image retain];
+        self.sourceImage = image;
+        sobelImage = [self.sobelImage retain];
+        [image release];
     }
-    
-    CGImageRef sobelImageCG = CGBitmapContextCreateImage(sobelContext);
-    UIImage *theSobelImage = [[UIImage imageWithCGImage:sobelImageCG] retain];
-    
-    CFRelease(sobelImageCG);
-    
-    return [theSobelImage autorelease];
 }
 
 
-- (void)locateStavesUsingThreshold:(float)threshold
+- (UIImage *)sobelImage
 {
-    size_t leftOffset = (size_t)(0.5 * imageWidth);
-    SobelState sobelState = SobelStateOutside;
-    
-    for (int y = 0; y < imageHeight; y++) {
-        
-        int average = sobelArray[leftOffset + y * imageWidth];
-        
-        if ((y > 0) && (y < imageHeight - 1)) {
-            average = (sobelArray[leftOffset - 1 + (y - 1) * imageWidth]
-                     + sobelArray[leftOffset     + (y - 1) * imageWidth]
-                     + sobelArray[leftOffset + 1 + (y - 1) * imageWidth]
-                     + sobelArray[leftOffset - 1 +  y      * imageWidth]
-                     + sobelArray[leftOffset + 1 +  y      * imageWidth]
-                     + sobelArray[leftOffset - 1 + (y + 1) * imageWidth]
-                     + sobelArray[leftOffset     + (y + 1) * imageWidth]
-                     + sobelArray[leftOffset + 1 + (y + 1) * imageWidth]) / 9;
-        }
-
-        if (average > 118 * (1 + threshold)) {
-            sobelState = SobelStateEntering;
-        } else if (average < 118 * (1 - threshold)) {
-            sobelState = SobelStateLeaving;
-        } else {
-            if (sobelState == SobelStateEntering) {
-                sobelState = SobelStateInside;
-                [self.delegate plotImagePoint:CGPointMake(leftOffset, y) withColour:[UIColor yellowColor]];
-            } else if (sobelState == SobelStateLeaving) {
-                sobelState = SobelStateOutside;
+    if (!sobelImage) {
+        for (int y = 0; y < imageHeight; y++) {
+            for (int x = 0; x < imageWidth; x++) {
+                if ((y == 0) || (y == imageHeight - 1) || (x == 0) || (x == imageWidth - 1))
+                    sobelArray[x + y * imageWidth] = 127;
+                else {
+                    // Obtain X and Y gradients using the Sobel operator
+                    int Gx = (    grayscaleArray[(x + 1) + (y - 1) * imageWidth] +
+                              2 * grayscaleArray[(x + 1) + (y    ) * imageWidth] +
+                                  grayscaleArray[(x + 1) + (y + 1) * imageWidth]) -
+                             (    grayscaleArray[(x - 1) + (y - 1) * imageWidth] +
+                              2 * grayscaleArray[(x - 1) + (y    ) * imageWidth] +
+                                  grayscaleArray[(x - 1) + (y + 1) * imageWidth]);
+                    int Gy = (    grayscaleArray[(x - 1) + (y - 1) * imageWidth] +
+                              2 * grayscaleArray[(x    ) + (y - 1) * imageWidth] +
+                                  grayscaleArray[(x + 1) + (y - 1) * imageWidth]) -
+                             (    grayscaleArray[(x - 1) + (y + 1) * imageWidth] +
+                              2 * grayscaleArray[(x    ) + (y + 1) * imageWidth] +
+                                  grayscaleArray[(x + 1) + (y + 1) * imageWidth]);
+                    
+                    int G = 128 + Gx + Gy;
+                    sobelArray[x + y * imageWidth] = (G > 255) ? 255 : ((G < 0) ? 0 : (unsigned char)G);
+                }
             }
+        }
+        
+        CGImageRef sobelImageCG = CGBitmapContextCreateImage(sobelContext);
+        sobelImage = [[UIImage imageWithCGImage:sobelImageCG] retain];
+        CFRelease(sobelImageCG);
+    }
+    
+    return sobelImage;
+}
+
+
+#pragma mark - 'Public' methods
+
+- (BOOL)imageContainsMusic
+{
+    return [staveLocator imageContainsStaves];
+}
+
+
+- (void)plotStaves
+{
+    [staveLocator locateStaves];
+}
+
+
+- (void)plotInkPointsAtOffset:(float)offset
+{
+    for (int y = 0; y < imageHeight; y++) {
+        CGPoint currentPoint = CGPointMake(offset * imageWidth, y);
+        
+        if ([sobelAnalyser didEnterInkFromTopAtPoint:currentPoint]) {
+            [sobelAnalyser.delegate plotImagePoint:currentPoint];
         }
     }
 }
@@ -190,21 +190,17 @@ typedef enum {
 
 #pragma mark - Lifecycle & housekeeping
 
-- (id)init
-{
-    self = [self initWithImage:nil];
-    
-    return self;
-}
-
-
 - (id)initWithImage:(UIImage *)anImage
 {
     self = [super init];
     
     if (self) {
         self.sourceImage = anImage;
-        self.staveLocator = [[StaveLocator alloc] init];
+        self.sobelImage = nil;
+        self.sobelThreshold = kDefaultSobelThreshold;
+        
+        sobelAnalyser = [[SobelAnalyser alloc] initWithSobelArray:sobelArray ofSize:CGSizeMake(imageWidth, imageHeight)];
+        staveLocator = [[StaveLocator alloc] initWithSobelAnalyser:sobelAnalyser];
     }
     
     return self;
@@ -214,12 +210,13 @@ typedef enum {
 - (void)dealloc
 {
     self.sourceImage = nil;
+    self.sobelImage = nil;
     
     CGContextRelease(sobelContext);
     free(grayscaleArray);
     free(sobelArray);
     
-    self.staveLocator = nil;
+    [staveLocator release];;
     
     [super dealloc];
 }

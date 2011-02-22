@@ -7,7 +7,7 @@
 //
 
 #import "MainViewController.h"
-#import "ImageCalibrationViewController.h"
+#import "MusicRecognitionViewController.h"
 
 #define kTakePhotoButtonIndex   0
 #define kChoosePhotoButtonIndex 1
@@ -84,11 +84,11 @@
     [self dismissModalViewControllerAnimated:YES];
     [[UIApplication sharedApplication] setStatusBarHidden:NO];
     
-    ImageCalibrationViewController *imageViewController = [[ImageCalibrationViewController alloc] initWithNibName:@"ImageCalibrationViewController" bundle:[NSBundle mainBundle]];
-    imageViewController.sourceImage = [info valueForKey:UIImagePickerControllerOriginalImage];
+    MusicRecognitionViewController *newMusicRecognitionViewController = [[MusicRecognitionViewController alloc] initWithNibName:@"MusicRecognitionViewController" bundle:[NSBundle mainBundle]];
+    newMusicRecognitionViewController.sourceImage = [info valueForKey:UIImagePickerControllerOriginalImage];
 
-    [self.navigationController pushViewController:imageViewController animated:YES];
-    [imageViewController release];
+    [self.navigationController pushViewController:newMusicRecognitionViewController animated:YES];
+    [newMusicRecognitionViewController release];
 }
 
 

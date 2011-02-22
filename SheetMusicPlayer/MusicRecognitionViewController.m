@@ -6,12 +6,12 @@
 //  Copyright 2011 __MyCompanyName__. All rights reserved.
 //
 
-#import "ImageCalibrationViewController.h"
+#import "MusicRecognitionViewController.h"
 #import "OverlayView.h"
-#import "ImageAnalyser.h"
+#import "MusicRecogniser.h"
 
 
-@implementation ImageCalibrationViewController
+@implementation MusicRecognitionViewController
 
 @dynamic sourceImage;
 @synthesize thresholdSlider;
@@ -25,10 +25,9 @@
 @synthesize overlayView;
 @synthesize overlayImageScrollView;
 
-@synthesize imageAnalyser;
+@synthesize musicRecogniser;
 
 
-//#define kDefaultThreshold 0.35f
 #define kDefaultPosition 0.5f
 #define kMaxZoomScale 5.f
 
@@ -37,20 +36,20 @@
 
 - (void)setSourceImage:(UIImage *)theSourceImage
 {
-    if (self.imageAnalyser) {
-        self.imageAnalyser.sourceImage = theSourceImage;
+    if (self.musicRecogniser) {
+        self.musicRecogniser.sourceImage = theSourceImage;
     } else {
-        ImageAnalyser *newImageAnalyser = [[ImageAnalyser alloc] initWithImage:theSourceImage];
-        self.imageAnalyser = newImageAnalyser;
-        [newImageAnalyser release];
+        MusicRecogniser *newMusicRecogniser = [[MusicRecogniser alloc] initWithImage:theSourceImage];
+        self.musicRecogniser = newMusicRecogniser;
+        [newMusicRecogniser release];
     }
 }
 
 
 - (UIImage *)sourceImage
 {
-    if (self.imageAnalyser) {
-        return self.imageAnalyser.sourceImage;
+    if (self.musicRecogniser) {
+        return self.musicRecogniser.sourceImage;
     } else {
         return nil;
     }
@@ -68,14 +67,14 @@
     [self.navigationController.navigationBar setTranslucent:YES];
     [self.navigationController setNavigationBarHidden:NO animated:YES];
     
-    [self.thresholdSlider setValue:self.imageAnalyser.sobelThreshold];
+    [self.thresholdSlider setValue:self.musicRecogniser.sobelThreshold];
     [self.thresholdSlider setHidden:NO];
     [self.thresholdLabel setTextColor:[UIColor whiteColor]];
-    [self.thresholdLabel setText:[NSString stringWithFormat:@"%1.2f", self.imageAnalyser.sobelThreshold]];
+    [self.thresholdLabel setText:[NSString stringWithFormat:@"%1.2f", self.musicRecogniser.sobelThreshold]];
     [self.thresholdLabel setHidden:NO];
     [self.containerView addSubview:thresholdSlider];
     [self.containerView addSubview:thresholdLabel];
-
+    
     [self.positionSlider setValue:kDefaultPosition];
     [self.positionSlider setHidden:NO];
     [self.positionLabel setTextColor:[UIColor whiteColor]];
@@ -91,9 +90,9 @@
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-
+    
     if (self) {
-        self.imageAnalyser = nil;
+        self.musicRecogniser = nil;
     }
     
     return self;
@@ -113,8 +112,8 @@
     self.overlayView = nil;
     self.overlayImageScrollView = nil;
     self.containerView = nil;
-
-    self.imageAnalyser = nil;
+    
+    self.musicRecogniser = nil;
     
     [super dealloc];
 }
@@ -140,13 +139,13 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
+    
 	self.title = @"Photo Calibration";
     
     UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelAction:)];
     self.navigationItem.leftBarButtonItem = cancelButton;
     [cancelButton release];
-
+    
     UIBarButtonItem *playButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemPlay target:self action:@selector(playAction:)];
     self.navigationItem.rightBarButtonItem = playButton;
     [playButton release];
@@ -154,7 +153,7 @@
     UIView *newContainerView = [[UIView alloc] initWithFrame:[self.view frame]];
     self.containerView = newContainerView;
     [newContainerView release];
-
+    
     UIImageView *newSourceImageView = [[UIImageView alloc] initWithFrame:[self.containerView frame]];
     self.sourceImageView = newSourceImageView;
     [newSourceImageView release];
@@ -167,7 +166,7 @@
     
     self.sourceImageView.contentMode = UIViewContentModeScaleAspectFit;
     self.sourceImageView.backgroundColor = [UIColor blackColor];
-    self.sourceImageView.image = imageAnalyser.sourceImage;
+    self.sourceImageView.image = musicRecogniser.sourceImage;
     [self.containerView addSubview:sourceImageView];
     
     self.overlayImageScrollView.contentSize = containerView.frame.size;
@@ -202,35 +201,39 @@
     self.sobelImageView.contentMode = UIViewContentModeScaleAspectFit;
     self.sobelImageView.backgroundColor = [UIColor blackColor];
     
-    self.sobelImageView.image = [imageAnalyser obtainSobelImage];
+    self.sobelImageView.image = musicRecogniser.sobelImage;
     [self.overlayImageScrollView addSubview:sobelImageView];
     [self.containerView insertSubview:overlayImageScrollView belowSubview:sourceImageView];
-    
-    // Animate transition from original to binary image
-    if ([[[UIDevice currentDevice] systemVersion] compare:@"4.0"] != NSOrderedAscending) {
-        // iOS 4.x
-        [UIView animateWithDuration:2.0 animations:^{ self.sourceImageView.alpha = 0.0; } completion:^(BOOL finished) { [self tranisitionToBinaryEnded:nil]; }];
+        
+    if ([self.musicRecogniser imageContainsMusic]) {
+        // Animate transition from original to binary image
+        if ([[[UIDevice currentDevice] systemVersion] compare:@"4.0"] != NSOrderedAscending) {
+            // iOS 4.x
+            [UIView animateWithDuration:2.0 animations:^{ self.sourceImageView.alpha = 0.0; } completion:^(BOOL finished) { [self tranisitionToBinaryEnded:self]; }];
+        } else {
+            // iPhoneOS 3.x
+            [UIView beginAnimations:nil context:nil];
+            [UIView setAnimationDuration:2.0];
+            [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
+            [UIView setAnimationsEnabled:YES];
+            [UIView setAnimationDidStopSelector:@selector(tranisitionToBinaryEnded:)];
+            [UIView setAnimationDelegate:self];
+            self.sourceImageView.alpha = 0.0;
+            [UIView commitAnimations];
+        }
+        
+        OverlayView *newOverlayView = [[OverlayView alloc] initWithImageView:self.sobelImageView];
+        self.overlayView = newOverlayView;
+        [newOverlayView release];
+        
+        [self.overlayImageScrollView addSubview:self.overlayView];
+        [self.musicRecogniser.sobelAnalyser setDelegate:self.overlayView];
+        
+        [self.musicRecogniser plotStaves];
     } else {
-        // iPhoneOS 3.x
-        [UIView beginAnimations:nil context:nil];
-        [UIView setAnimationDuration:2.0];
-        [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
-        [UIView setAnimationsEnabled:YES];
-        [UIView setAnimationDidStopSelector:@selector(tranisitionToBinaryEnded:)];
-        [UIView setAnimationDelegate:self];
-        self.sourceImageView.alpha = 0.0;
-        [UIView commitAnimations];
+        UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Cannot find music" message:@"There appears to be no music in this photo. Please take or pick another photo, and remember to use flash if your device supports it." delegate:self cancelButtonTitle:@"Dismiss" otherButtonTitles:nil] autorelease];
+        [alert show];
     }
-
-    OverlayView *newOverlayView = [[OverlayView alloc] initWithImageView:self.sobelImageView];
-    self.overlayView = newOverlayView;
-    [newOverlayView release];
-    
-    [self.overlayImageScrollView addSubview:overlayView];
-    [self.imageAnalyser setDelegate:self.overlayView];
-    
-    //[self.imageAnalyser plotInkPointsAtOffset:kDefaultPosition];
-    [self.imageAnalyser locateStaves];
 }
 
 
@@ -243,7 +246,7 @@
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     // Return YES for supported orientations
-    return ((interfaceOrientation == UIInterfaceOrientationPortrait) || (interfaceOrientation == UIInterfaceOrientationLandscapeLeft));
+    return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
 
@@ -277,6 +280,38 @@
 }
 
 
+#pragma mark - Selector implementations
+
+- (void)cancelAction:(id)sender
+{
+    [self.thresholdSlider setHidden:YES];
+    [self.thresholdLabel setHidden:YES];;
+    [self.positionSlider setHidden:YES];
+    [self.positionLabel setHidden:YES];
+    
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+
+- (void)playAction:(id)sender
+{
+    //[self.overlayView.plotPointsWithColour removeAllObjects];
+    //[self.musicRecogniser locateStaves];
+}
+
+
+#pragma mark - IBAction methods
+
+- (IBAction)sliderAction:(id)sender
+{
+    [self.thresholdLabel setText:[NSString stringWithFormat:@"%1.2f", [thresholdSlider value]]];
+    [self.positionLabel setText:[NSString stringWithFormat:@"%1.2f", [positionSlider value]]];
+    
+    [self.overlayView.plotPointsWithColour removeAllObjects];
+    [self.musicRecogniser setSobelThreshold:[thresholdSlider value]];
+}
+
+
 #pragma mark - UIScrollViewDelegate methods
 
 - (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView
@@ -294,36 +329,10 @@
 }
 
 
-#pragma mark - Selector implementations
+#pragma mark - UIAlertViewDelegate methods
 
-- (void)cancelAction:(id)sender
-{
-    [self.thresholdSlider setHidden:YES];
-    [self.thresholdLabel setHidden:YES];
-    [self.positionSlider setHidden:YES];
-    [self.positionLabel setHidden:YES];
-
-    [self.navigationController popViewControllerAnimated:YES];
-}
-
-
-- (void)playAction:(id)sender
-{
-    [self.overlayView.plotPointsWithColour removeAllObjects];
-    [self.imageAnalyser locateStaves];
-}
-
-
-#pragma mark - IBAction methods
-
-- (IBAction)sliderAction:(id)sender
-{
-    [self.thresholdLabel setText:[NSString stringWithFormat:@"%1.2f", [thresholdSlider value]]];
-    [self.positionLabel setText:[NSString stringWithFormat:@"%1.2f", [positionSlider value]]];
-    
-    [self.overlayView.plotPointsWithColour removeAllObjects];
-    [self.imageAnalyser setSobelThreshold:[thresholdSlider value]];
-    [self.imageAnalyser plotInkPointsAtOffset:[positionSlider value]];
+- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
+    [self cancelAction:self];
 }
 
 @end
