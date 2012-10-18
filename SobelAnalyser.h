@@ -3,7 +3,7 @@
 //  SheetMusicPlayer
 //
 //  Created by Anders Blehr on 20.02.11.
-//  Copyright 2011 __MyCompanyName__. All rights reserved.
+//  Copyright 2011 Rhelba Software. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
@@ -12,6 +12,8 @@
 @required
 - (void)plotImagePoint:(CGPoint)imagePoint;
 - (void)plotImagePoint:(CGPoint)imagePoint withColour:(UIColor *)colour;
+- (void)plotStaveLine:(NSArray *)staveLinePoints;
+;
 @end
 
 @interface SobelAnalyser : NSObject {

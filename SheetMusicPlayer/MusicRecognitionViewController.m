@@ -3,7 +3,7 @@
 //  SheetMusicPlayer
 //
 //  Created by Anders Blehr on 21.01.11.
-//  Copyright 2011 __MyCompanyName__. All rights reserved.
+//  Copyright 2011 Rhelba Software. All rights reserved.
 //
 
 #import "MusicRecognitionViewController.h"
@@ -34,12 +34,12 @@
 
 #pragma mark - Getters & setters for @dynamic properties
 
-- (void)setSourceImage:(UIImage *)theSourceImage
+- (void)setSourceImage:(UIImage *)sourceImage
 {
     if (self.musicRecogniser) {
-        self.musicRecogniser.sourceImage = theSourceImage;
+        self.musicRecogniser.grayscaleImage = sourceImage;
     } else {
-        MusicRecogniser *newMusicRecogniser = [[MusicRecogniser alloc] initWithImage:theSourceImage];
+        MusicRecogniser *newMusicRecogniser = [[MusicRecogniser alloc] initWithImage:sourceImage];
         self.musicRecogniser = newMusicRecogniser;
         [newMusicRecogniser release];
     }
@@ -49,7 +49,7 @@
 - (UIImage *)sourceImage
 {
     if (self.musicRecogniser) {
-        return self.musicRecogniser.sourceImage;
+        return self.musicRecogniser.grayscaleImage;
     } else {
         return nil;
     }
@@ -124,7 +124,7 @@
     // Releases the view if it doesn't have a superview.
     [super didReceiveMemoryWarning];
     
-    // Release any cached data, images, etc that aren't in use.
+    [self.musicRecogniser didReceiveMemoryWarning];
 }
 
 
@@ -166,7 +166,7 @@
     
     self.sourceImageView.contentMode = UIViewContentModeScaleAspectFit;
     self.sourceImageView.backgroundColor = [UIColor blackColor];
-    self.sourceImageView.image = musicRecogniser.sourceImage;
+    self.sourceImageView.image = musicRecogniser.grayscaleImage;
     [self.containerView addSubview:sourceImageView];
     
     self.overlayImageScrollView.contentSize = containerView.frame.size;
@@ -207,29 +207,17 @@
         
     if ([self.musicRecogniser imageContainsMusic]) {
         // Animate transition from original to binary image
-        if ([[[UIDevice currentDevice] systemVersion] compare:@"4.0"] != NSOrderedAscending) {
-            // iOS 4.x
-            [UIView animateWithDuration:2.0 animations:^{ self.sourceImageView.alpha = 0.0; } completion:^(BOOL finished) { [self tranisitionToBinaryEnded:self]; }];
-        } else {
-            // iPhoneOS 3.x
-            [UIView beginAnimations:nil context:nil];
-            [UIView setAnimationDuration:2.0];
-            [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
-            [UIView setAnimationsEnabled:YES];
-            [UIView setAnimationDidStopSelector:@selector(tranisitionToBinaryEnded:)];
-            [UIView setAnimationDelegate:self];
-            self.sourceImageView.alpha = 0.0;
-            [UIView commitAnimations];
-        }
+        [UIView animateWithDuration:2.0 animations:^{ self.sourceImageView.alpha = 0.0; } completion:^(BOOL finished) { [self tranisitionToBinaryEnded:self]; }];
         
-        OverlayView *newOverlayView = [[OverlayView alloc] initWithImageView:self.sobelImageView];
+        OverlayView *newOverlayView = [[OverlayView alloc] initWithFrame:sobelImageView.frame imageSize:sobelImageView.image.size];
         self.overlayView = newOverlayView;
         [newOverlayView release];
         
-        [self.overlayImageScrollView addSubview:self.overlayView];
+        //[self.overlayImageScrollView addSubview:self.overlayView];
+        [self.sobelImageView addSubview:self.overlayView];
         [self.musicRecogniser.sobelAnalyser setDelegate:self.overlayView];
         
-        [self.musicRecogniser plotStaves];
+        [self.musicRecogniser plotMusic];
     } else {
         UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Cannot find music" message:@"There appears to be no music in this photo. Please take or pick another photo, and remember to use flash if your device supports it." delegate:self cancelButtonTitle:@"Dismiss" otherButtonTitles:nil] autorelease];
         [alert show];
@@ -307,7 +295,7 @@
     [self.thresholdLabel setText:[NSString stringWithFormat:@"%1.2f", [thresholdSlider value]]];
     [self.positionLabel setText:[NSString stringWithFormat:@"%1.2f", [positionSlider value]]];
     
-    [self.overlayView.plotPointsWithColour removeAllObjects];
+    //[self.overlayView.plotPointsWithColour removeAllObjects];
     [self.musicRecogniser setSobelThreshold:[thresholdSlider value]];
 }
 
@@ -317,15 +305,6 @@
 - (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView
 {
     return sobelImageView;
-}
-
-
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView
-{
-    self.overlayView.zoomScale = scrollView.zoomScale;
-    self.overlayView.contentOffset = scrollView.contentOffset;
-    
-    [self.overlayView setNeedsDisplay];
 }
 
 

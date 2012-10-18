@@ -3,7 +3,7 @@
 //  SheetMusicPlayer
 //
 //  Created by Anders Blehr on 31.01.11.
-//  Copyright 2011 __MyCompanyName__. All rights reserved.
+//  Copyright 2011 Rhelba Software. All rights reserved.
 //
 
 #import "MusicRecogniser.h"
@@ -13,7 +13,7 @@
 
 @implementation MusicRecogniser
 
-@dynamic sourceImage;
+@dynamic grayscaleImage;
 @dynamic sobelImage;
 @synthesize sobelThreshold;
 @synthesize sobelAnalyser;
@@ -25,31 +25,29 @@
 
 #pragma mark - Getters & setters for @dynamic properties
 
-- (void)setSourceImage:(UIImage *)theSourceImage
+- (void)setGrayscaleImage:(UIImage *)sourceImage
 {
-    if (theSourceImage) {
-        UIImage *sizedSourceImage = [theSourceImage retain];
+    if (sourceImage) {
+        UIImage *sizedSourceImage = [sourceImage retain];
+        [grayscaleImage release];
         
-        size_t uiSourceWidth = theSourceImage.size.width;
-        size_t uiSourceHeight = theSourceImage.size.height;
+        size_t sourceWidth = sourceImage.size.width;
+        size_t sourceHeight = sourceImage.size.height;
         
         // Resize image if larger than max dimensions
-        if ((uiSourceWidth > kMaxImageDimension) || (uiSourceHeight > kMaxImageDimension)) {
-            float scaleFactor = kMaxImageDimension / ((uiSourceWidth > uiSourceHeight) ? uiSourceWidth : uiSourceHeight);
+        if ((sourceWidth > kMaxImageDimension) || (sourceHeight > kMaxImageDimension)) {
+            float scaleFactor = kMaxImageDimension / ((sourceWidth > sourceHeight) ? sourceWidth : sourceHeight);
             
-            CGSize scaledSize = CGSizeMake(scaleFactor * uiSourceWidth, scaleFactor * uiSourceHeight);
+            CGSize scaledSize = CGSizeMake(scaleFactor * sourceWidth, scaleFactor * sourceHeight);
             UIGraphicsBeginImageContext(scaledSize);
-            [theSourceImage drawInRect:CGRectMake(0, 0, scaledSize.width, scaledSize.height)];
+            [sourceImage drawInRect:CGRectMake(0, 0, scaledSize.width, scaledSize.height)];
             [sizedSourceImage release];
             sizedSourceImage = [UIGraphicsGetImageFromCurrentImageContext() retain];
             UIGraphicsEndImageContext();
         }
         
-        [sourceImage release];
-        sourceImage = sizedSourceImage;
-        
         // Create pixel arrays and align Quartz coordinate system with UIKit's
-        CGImageRef sourceImageCG = [sourceImage CGImage];
+        CGImageRef sourceImageCG = [sizedSourceImage CGImage];
         
         size_t cgSourceWidth = CGImageGetWidth(sourceImageCG);
         size_t cgSourceHeight = CGImageGetHeight(sourceImageCG);
@@ -57,7 +55,7 @@
         CGFloat translationHeight = cgSourceHeight;
         CGFloat rotationRadians = 0;
         
-        UIImageOrientation sourceOrientation = [sourceImage imageOrientation];
+        UIImageOrientation sourceOrientation = [sizedSourceImage imageOrientation];
         
         // Handle UIKit and Quartz's differing coordinate systems
         if (sourceOrientation == UIImageOrientationUp) {
@@ -97,17 +95,22 @@
         }
         
         CGContextDrawImage(grayscaleContext, CGRectMake(0, 0, cgSourceWidth, cgSourceHeight), sourceImageCG);
+        CGImageRef grayscaleImageCG = CGBitmapContextCreateImage(grayscaleContext);
+        grayscaleImage = [[UIImage imageWithCGImage:grayscaleImageCG] retain];
+        
+        CFRelease(grayscaleImageCG);
         CGContextRelease(grayscaleContext);
+        [sizedSourceImage release];
     } else {
-        [sourceImage release];
-        sourceImage = nil;
+        [grayscaleImage release];
+        grayscaleImage = nil;
     }
 }
 
 
-- (UIImage *)sourceImage
+- (UIImage *)grayscaleImage
 {
-    return sourceImage;
+    return grayscaleImage;
 }
 
 
@@ -118,7 +121,7 @@
     
     if (image) {
         [image retain];
-        self.sourceImage = image;
+        self.grayscaleImage = image;
         sobelImage = [self.sobelImage retain];
         [image release];
     }
@@ -134,17 +137,17 @@
                     sobelArray[x + y * imageWidth] = 127;
                 else {
                     // Obtain X and Y gradients using the Sobel operator
-                    int Gx = (    grayscaleArray[(x + 1) + (y - 1) * imageWidth] +
-                              2 * grayscaleArray[(x + 1) + (y    ) * imageWidth] +
+                    int Gx = (    grayscaleArray[(x + 1) + (y - 1) * imageWidth]  +
+                              2 * grayscaleArray[(x + 1) + (y    ) * imageWidth]  +
                                   grayscaleArray[(x + 1) + (y + 1) * imageWidth]) -
-                             (    grayscaleArray[(x - 1) + (y - 1) * imageWidth] +
-                              2 * grayscaleArray[(x - 1) + (y    ) * imageWidth] +
+                             (    grayscaleArray[(x - 1) + (y - 1) * imageWidth]  +
+                              2 * grayscaleArray[(x - 1) + (y    ) * imageWidth]  +
                                   grayscaleArray[(x - 1) + (y + 1) * imageWidth]);
-                    int Gy = (    grayscaleArray[(x - 1) + (y - 1) * imageWidth] +
-                              2 * grayscaleArray[(x    ) + (y - 1) * imageWidth] +
+                    int Gy = (    grayscaleArray[(x - 1) + (y - 1) * imageWidth]  +
+                              2 * grayscaleArray[(x    ) + (y - 1) * imageWidth]  +
                                   grayscaleArray[(x + 1) + (y - 1) * imageWidth]) -
-                             (    grayscaleArray[(x - 1) + (y + 1) * imageWidth] +
-                              2 * grayscaleArray[(x    ) + (y + 1) * imageWidth] +
+                             (    grayscaleArray[(x - 1) + (y + 1) * imageWidth]  +
+                              2 * grayscaleArray[(x    ) + (y + 1) * imageWidth]  +
                                   grayscaleArray[(x + 1) + (y + 1) * imageWidth]);
                     
                     int G = 128 + Gx + Gy;
@@ -170,7 +173,7 @@
 }
 
 
-- (void)plotStaves
+- (void)plotMusic
 {
     [staveLocator locateStaves];
 }
@@ -190,12 +193,12 @@
 
 #pragma mark - Lifecycle & housekeeping
 
-- (id)initWithImage:(UIImage *)anImage
+- (id)initWithImage:(UIImage *)image
 {
     self = [super init];
     
     if (self) {
-        self.sourceImage = anImage;
+        self.grayscaleImage = image;
         self.sobelImage = nil;
         self.sobelThreshold = kDefaultSobelThreshold;
         
@@ -207,15 +210,25 @@
 }
 
 
+- (void)didReceiveMemoryWarning
+{
+    // TODO: Need to do something..
+}
+
+
 - (void)dealloc
 {
-    self.sourceImage = nil;
+    self.grayscaleImage = nil;
     self.sobelImage = nil;
     
     CGContextRelease(sobelContext);
-    free(grayscaleArray);
     free(sobelArray);
+
+    if (grayscaleArray) {
+        free(grayscaleArray);
+    }
     
+    [sobelAnalyser release];
     [staveLocator release];;
     
     [super dealloc];

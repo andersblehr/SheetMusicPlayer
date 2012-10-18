@@ -3,7 +3,7 @@
 //  SheetMusicPlayer
 //
 //  Created by Anders Blehr on 09.02.11.
-//  Copyright 2011 __MyCompanyName__. All rights reserved.
+//  Copyright 2011 Rhelba Software. All rights reserved.
 //
 
 #import "Stave.h"
@@ -25,22 +25,22 @@
 @synthesize nextStave;
 
 
-#pragma mark - Lifecycle & housekeeping
+#pragma mark - 'Public' methods
 
-- (id)init
+- (void)evaluateCandidateStaveLine:(NSArray *)staveLinePoints
 {
-    self = [self initWithImageHeight:0];
-    
-    return self;
+    [sobelAnalyser.delegate plotStaveLine:staveLinePoints];
 }
 
 
-- (id)initWithImageHeight:(int)height
+#pragma mark - Lifecycle & housekeeping
+
+- (id)initWithSobelAnalyser:(SobelAnalyser *)analyser
 {
     self = [super init];
     
     if (self) {
-        imageHeight = height;
+        sobelAnalyser = analyser;
     }
     
     return self;

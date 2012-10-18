@@ -3,15 +3,14 @@
 //  SheetMusicPlayer
 //
 //  Created by Anders Blehr on 09.02.11.
-//  Copyright 2011 __MyCompanyName__. All rights reserved.
+//  Copyright 2011 Rhelba Software. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
+#import "SobelAnalyser.h"
 
 @interface Stave : NSObject {
 @private
-    int imageHeight;
-    
     CGPoint topLineLeft;
     CGPoint topLineCentre;
     CGPoint topLineRight;
@@ -23,6 +22,7 @@
     int lineSpacingCentre;
     int lineSpacingRight;
     
+    SobelAnalyser *sobelAnalyser;
     Stave *nextStave;
 }
 
@@ -39,6 +39,7 @@
 
 @property (nonatomic, retain) Stave *nextStave;
 
-- (id)initWithImageHeight:(int)height;
+- (void)evaluateCandidateStaveLine:(NSArray *)staveLinePoints;
+- (id)initWithSobelAnalyser:(SobelAnalyser *)analyser;
 
 @end

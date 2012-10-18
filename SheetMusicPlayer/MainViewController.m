@@ -3,7 +3,7 @@
 //  SheetMusicPlayer
 //
 //  Created by Anders Blehr on 18.01.11.
-//  Copyright 2011 __MyCompanyName__. All rights reserved.
+//  Copyright 2011 Rhelba Software. All rights reserved.
 //
 
 #import "MainViewController.h"

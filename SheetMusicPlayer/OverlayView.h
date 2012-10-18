@@ -3,7 +3,7 @@
 //  SheetMusicPlayer
 //
 //  Created by Anders Blehr on 28.01.11.
-//  Copyright 2011 __MyCompanyName__. All rights reserved.
+//  Copyright 2011 Rhelba Software. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
@@ -13,17 +13,14 @@
 @interface OverlayView : UIView <SobelAnalyserDelegate> {
 @private
     float scaleFactor;
-    float zoomScale;
     CGPoint defaultOrigin;
-    CGPoint contentOffset;
     
     NSMutableDictionary *plotPointsWithColour;
+    NSMutableArray *staveLines;
 }
 
-@property (nonatomic, assign) float zoomScale;
-@property (nonatomic, assign) CGPoint contentOffset;
 @property (nonatomic, retain) NSMutableDictionary *plotPointsWithColour;
 
-- (void)plotImagePoint:(CGPoint)imagePoint;
-- (id)initWithImageView:(UIImageView *)imageView;
+- (id)initWithFrame:(CGRect)frame imageSize:(CGSize)imageSize;
+
 @end
