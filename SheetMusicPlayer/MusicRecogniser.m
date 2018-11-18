@@ -28,8 +28,7 @@
 - (void)setGrayscaleImage:(UIImage *)sourceImage
 {
     if (sourceImage) {
-        UIImage *sizedSourceImage = [sourceImage retain];
-        [grayscaleImage release];
+        UIImage *sizedSourceImage = sourceImage;
         
         size_t sourceWidth = sourceImage.size.width;
         size_t sourceHeight = sourceImage.size.height;
@@ -41,8 +40,7 @@
             CGSize scaledSize = CGSizeMake(scaleFactor * sourceWidth, scaleFactor * sourceHeight);
             UIGraphicsBeginImageContext(scaledSize);
             [sourceImage drawInRect:CGRectMake(0, 0, scaledSize.width, scaledSize.height)];
-            [sizedSourceImage release];
-            sizedSourceImage = [UIGraphicsGetImageFromCurrentImageContext() retain];
+            sizedSourceImage = UIGraphicsGetImageFromCurrentImageContext();
             UIGraphicsEndImageContext();
         }
         
@@ -96,13 +94,11 @@
         
         CGContextDrawImage(grayscaleContext, CGRectMake(0, 0, cgSourceWidth, cgSourceHeight), sourceImageCG);
         CGImageRef grayscaleImageCG = CGBitmapContextCreateImage(grayscaleContext);
-        grayscaleImage = [[UIImage imageWithCGImage:grayscaleImageCG] retain];
+        grayscaleImage = [UIImage imageWithCGImage:grayscaleImageCG];
         
         CFRelease(grayscaleImageCG);
         CGContextRelease(grayscaleContext);
-        [sizedSourceImage release];
     } else {
-        [grayscaleImage release];
         grayscaleImage = nil;
     }
 }
@@ -116,14 +112,11 @@
 
 - (void)setSobelImage:(UIImage *)image
 {
-    [sobelImage release];
     sobelImage = nil;
     
     if (image) {
-        [image retain];
         self.grayscaleImage = image;
-        sobelImage = [self.sobelImage retain];
-        [image release];
+        sobelImage = self.sobelImage;
     }
 }
 
@@ -157,7 +150,7 @@
         }
         
         CGImageRef sobelImageCG = CGBitmapContextCreateImage(sobelContext);
-        sobelImage = [[UIImage imageWithCGImage:sobelImageCG] retain];
+        sobelImage = [UIImage imageWithCGImage:sobelImageCG];
         CFRelease(sobelImageCG);
     }
     
@@ -227,11 +220,6 @@
     if (grayscaleArray) {
         free(grayscaleArray);
     }
-    
-    [sobelAnalyser release];
-    [staveLocator release];;
-    
-    [super dealloc];
 }
 
 @end

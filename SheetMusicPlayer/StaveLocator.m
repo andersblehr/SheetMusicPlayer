@@ -138,7 +138,6 @@
     while ((x = [enumerator nextObject])) {
         NSMutableArray *candidateArray = [[NSMutableArray alloc] init];
         [candidateArrays setObject:candidateArray forKey:x];
-        [candidateArray release];
         
         unsigned char *pointArray = [[pointArrays objectForKey:x] pointerValue];
         
@@ -383,7 +382,6 @@
         
         Stave *newStave = [[Stave alloc] initWithSobelAnalyser:sobelAnalyser];
         self.firstStave = newStave;
-        [newStave release];
         
         currentStave = self.firstStave;
     }
@@ -403,13 +401,6 @@
         unsigned char *pointArray = [[pointArrays objectForKey:x] pointerValue];
         free(pointArray);
     }
-    
-    [pointArrays release];
-    [candidateArrays release];
-    [alignedPoints release];
-    [processedPoints release];
-    
-    [super dealloc];
 }
 
 @end

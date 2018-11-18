@@ -50,7 +50,6 @@
         
         NSMutableDictionary *newDictionary = [[NSMutableDictionary alloc] init];
         self.plotPointsWithColour = newDictionary;
-        [newDictionary release];
         
         staveLines = [[NSMutableArray alloc] init];
         
@@ -132,9 +131,6 @@
 - (void)dealloc
 {
     self.plotPointsWithColour = nil;
-    [staveLines release];
-    
-    [super dealloc];
 }
 
 
@@ -153,7 +149,6 @@
     if (!pointArray) {
         pointArray = [[NSMutableArray alloc] init];
         [plotPointsWithColour setObject:pointArray forKey:colour];
-        [pointArray release];
     }
     
     [pointArray addObject:[NSValue valueWithCGPoint:imagePoint]];

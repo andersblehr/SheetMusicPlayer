@@ -26,7 +26,7 @@
     float sobelThreshold;
 }
 
-@property (nonatomic, assign) id delegate;
+@property (nonatomic) id delegate;
 @property (nonatomic, assign) size_t imageWidth;
 @property (nonatomic, assign) size_t imageHeight;
 @property (nonatomic, assign) float sobelThreshold;

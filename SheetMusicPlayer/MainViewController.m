@@ -30,7 +30,6 @@
         
         [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
         [self presentModalViewController:photoPickerController animated:YES];
-        [photoPickerController release];
     }
 }
 
@@ -71,8 +70,6 @@
         } else if (buttonIndex == kChoosePhotoButtonIndex) {
             [self pickPhotoFromSourceType:UIImagePickerControllerSourceTypePhotoLibrary];
         }
-        
-        [photoPickerActionSheet release];
     }
 }
 
@@ -88,7 +85,6 @@
     newMusicRecognitionViewController.sourceImage = [info valueForKey:UIImagePickerControllerOriginalImage];
 
     [self.navigationController pushViewController:newMusicRecognitionViewController animated:YES];
-    [newMusicRecognitionViewController release];
 }
 
 
@@ -111,12 +107,6 @@
     }
     
     return self;
-}
-
-
-- (void)dealloc
-{
-    [super dealloc];
 }
 
 

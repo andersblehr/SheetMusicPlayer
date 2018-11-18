@@ -39,9 +39,7 @@
     if (self.musicRecogniser) {
         self.musicRecogniser.grayscaleImage = sourceImage;
     } else {
-        MusicRecogniser *newMusicRecogniser = [[MusicRecogniser alloc] initWithImage:sourceImage];
-        self.musicRecogniser = newMusicRecogniser;
-        [newMusicRecogniser release];
+        self.musicRecogniser = [[MusicRecogniser alloc] initWithImage:sourceImage];
     }
 }
 
@@ -114,8 +112,6 @@
     self.containerView = nil;
     
     self.musicRecogniser = nil;
-    
-    [super dealloc];
 }
 
 
@@ -141,27 +137,11 @@
     [super viewDidLoad];
     
 	self.title = @"Photo Calibration";
-    
-    UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelAction:)];
-    self.navigationItem.leftBarButtonItem = cancelButton;
-    [cancelButton release];
-    
-    UIBarButtonItem *playButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemPlay target:self action:@selector(playAction:)];
-    self.navigationItem.rightBarButtonItem = playButton;
-    [playButton release];
-    
-    UIView *newContainerView = [[UIView alloc] initWithFrame:[self.view frame]];
-    self.containerView = newContainerView;
-    [newContainerView release];
-    
-    UIImageView *newSourceImageView = [[UIImageView alloc] initWithFrame:[self.containerView frame]];
-    self.sourceImageView = newSourceImageView;
-    [newSourceImageView release];
-    
-    UIScrollView *newOverlayImageScrollView = [[UIScrollView alloc] initWithFrame:[self.containerView frame]];
-    self.overlayImageScrollView = newOverlayImageScrollView;
-    [newOverlayImageScrollView release];
-    
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelAction:)];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemPlay target:self action:@selector(playAction:)];
+    self.containerView = [[UIView alloc] initWithFrame:[self.view frame]];
+    self.sourceImageView = [[UIImageView alloc] initWithFrame:[self.containerView frame]];
+    self.overlayImageScrollView = [[UIScrollView alloc] initWithFrame:[self.containerView frame]];
     self.view = self.containerView;
     
     self.sourceImageView.contentMode = UIViewContentModeScaleAspectFit;
@@ -184,9 +164,6 @@
     singleTapRecogniser.numberOfTapsRequired = 1;
     [singleTapRecogniser requireGestureRecognizerToFail:doubleTapRecogniser];
     [self.overlayImageScrollView addGestureRecognizer:singleTapRecogniser];
-    
-    [doubleTapRecogniser release];    
-    [singleTapRecogniser release];
 }
 
 
@@ -194,10 +171,7 @@
 {
     [super viewDidAppear:animated];
     
-    UIImageView *newSobelImageView = [[UIImageView alloc] initWithFrame:[self.containerView frame]];
-    self.sobelImageView = newSobelImageView;
-    [newSobelImageView release];
-    
+    self.sobelImageView = [[UIImageView alloc] initWithFrame:[self.containerView frame]];
     self.sobelImageView.contentMode = UIViewContentModeScaleAspectFit;
     self.sobelImageView.backgroundColor = [UIColor blackColor];
     
@@ -209,9 +183,7 @@
         // Animate transition from original to binary image
         [UIView animateWithDuration:2.0 animations:^{ self.sourceImageView.alpha = 0.0; } completion:^(BOOL finished) { [self tranisitionToBinaryEnded:self]; }];
         
-        OverlayView *newOverlayView = [[OverlayView alloc] initWithFrame:sobelImageView.frame imageSize:sobelImageView.image.size];
-        self.overlayView = newOverlayView;
-        [newOverlayView release];
+        self.overlayView = [[OverlayView alloc] initWithFrame:sobelImageView.frame imageSize:sobelImageView.image.size];
         
         //[self.overlayImageScrollView addSubview:self.overlayView];
         [self.sobelImageView addSubview:self.overlayView];
@@ -219,7 +191,7 @@
         
         [self.musicRecogniser plotMusic];
     } else {
-        UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Cannot find music" message:@"There appears to be no music in this photo. Please take or pick another photo, and remember to use flash if your device supports it." delegate:self cancelButtonTitle:@"Dismiss" otherButtonTitles:nil] autorelease];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Cannot find music" message:@"There appears to be no music in this photo. Please take or pick another photo, and remember to use flash if your device supports it." delegate:self cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
         [alert show];
     }
 }

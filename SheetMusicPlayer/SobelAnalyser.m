@@ -111,8 +111,6 @@
 - (void)dealloc
 {
     sobelArray = nil;
-    
-    [super dealloc];
 }
 
 @end
