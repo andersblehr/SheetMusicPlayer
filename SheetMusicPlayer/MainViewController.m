@@ -29,7 +29,7 @@
         photoPickerController.delegate = self;
         
         [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
-        [self presentModalViewController:photoPickerController animated:YES];
+        [self presentViewController:photoPickerController animated:YES completion:nil];
     }
 }
 
@@ -78,7 +78,7 @@
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
-    [self dismissModalViewControllerAnimated:YES];
+    [self dismissViewControllerAnimated:YES completion:nil];
     [[UIApplication sharedApplication] setStatusBarHidden:NO];
     
     MusicRecognitionViewController *newMusicRecognitionViewController = [[MusicRecognitionViewController alloc] initWithNibName:@"MusicRecognitionViewController" bundle:[NSBundle mainBundle]];
@@ -90,7 +90,7 @@
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
 {
-    [self dismissModalViewControllerAnimated:YES];
+    [self dismissViewControllerAnimated:YES completion:nil];
     [[UIApplication sharedApplication] setStatusBarHidden:NO];
 }
 
@@ -132,21 +132,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-}
-
-
-- (void)viewDidUnload
-{
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
-}
-
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    // Return YES for supported orientations
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
 

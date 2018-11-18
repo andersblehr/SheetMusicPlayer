@@ -197,19 +197,6 @@
 }
 
 
-- (void)viewDidUnload
-{
-    [super viewDidUnload];
-}
-
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    // Return YES for supported orientations
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
-}
-
-
 #pragma mark - Gesture handling
 
 - (void)singleTapAction:(UITapGestureRecognizer *)singleTapRecogniser

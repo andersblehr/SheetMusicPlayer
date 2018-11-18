@@ -166,8 +166,8 @@
     if (CGPointEqualToPoint(point, referencePoint)) {
         isAligned = YES;
     } else {
-        float verticalDelta = abs(referencePoint.y - point.y);
-        float horizontalDelta = abs(referencePoint.x - point.x);
+        float verticalDelta = fabs(referencePoint.y - point.y);
+        float horizontalDelta = fabs(referencePoint.x - point.x);
         float ratio = verticalDelta / horizontalDelta;
         
         isAligned = (ratio < 0.01f);
@@ -203,7 +203,7 @@
 {
     NSValue *pointValue = [NSValue valueWithCGPoint:point];
 
-    if (![processedPoints member:pointValue] && (abs((int)point.y) < NSIntegerMax / 2)) {
+    if (![processedPoints member:pointValue] && (labs((long)point.y) < NSIntegerMax / 2)) {
         if ([alignedPoints count] == 0) {
             [alignedPoints addObject:pointValue];
         } else {
@@ -257,7 +257,7 @@
     NSMutableArray *xPositions = [NSMutableArray arrayWithArray:[candidateArrays allKeys]];
     [xPositions sortUsingSelector:@selector(compare:)];
 
-    int numberOfXPositions = [xPositions count];
+    NSUInteger numberOfXPositions = [xPositions count];
     NSMutableSet *exhaustedPositions = [[NSMutableSet alloc] init];
 
     int yOffsets[numberOfXPositions];
@@ -272,7 +272,7 @@
         while (!candidateStaveLineFound && ([exhaustedPositions count] < numberOfXPositions)) {
             alignmentPoint = CGPointZero;
             CGPoint minPoint = CGPointMake(NSIntegerMax, NSIntegerMax);
-            int alignedCount = [alignedPoints count];
+            NSUInteger alignedCount = [alignedPoints count];
             
             for (int i = 0; i < numberOfXPositions; i++) {
                 NSNumber *x = [xPositions objectAtIndex:i];
@@ -282,7 +282,7 @@
                 if (yOffsets[i] < [yPositions count]) {
                     y = [yPositions objectAtIndex:yOffsets[i]];
                 } else {
-                    y = [NSNumber numberWithInt:NSIntegerMax];
+                    y = [NSNumber numberWithUnsignedInteger:NSIntegerMax];
                     [exhaustedPositions addObject:x];
                 }
 

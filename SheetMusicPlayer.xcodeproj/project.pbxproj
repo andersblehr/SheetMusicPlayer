@@ -400,7 +400,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				VALID_ARCHS = "arm64 arm64e armv7 armv7s";
+				VALID_ARCHS = "${ARCHS_STANDARD}";
 			};
 			name = Debug;
 		};
@@ -443,7 +443,7 @@
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
-				VALID_ARCHS = "arm64 arm64e armv7 armv7s";
+				VALID_ARCHS = "${ARCHS_STANDARD}";
 			};
 			name = Release;
 		};
@@ -461,6 +461,7 @@
 				INFOPLIST_FILE = "SheetMusicPlayer/Supporting Files/SheetMusicPlayer-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				VALID_ARCHS = "${ARCHS_STANDARD}";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -479,6 +480,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				VALIDATE_PRODUCT = YES;
+				VALID_ARCHS = "${ARCHS_STANDARD}";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
