@@ -6,10 +6,10 @@
 //  Copyright 2011 __MyCompanyName__. All rights reserved.
 //
 
-#import <SenTestingKit/SenTestingKit.h>
+#import <XCTest/XCTest.h>
 
 
-@interface SheetMusicPlayerTests : SenTestCase {
+@interface SheetMusicPlayerTests : XCTestCase {
 @private
     
 }

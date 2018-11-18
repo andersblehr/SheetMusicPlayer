@@ -14,6 +14,7 @@
 		5C43D2D112E9E90C005639EA /* MusicRecognitionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5C43D2CF12E9E90C005639EA /* MusicRecognitionViewController.xib */; };
 		5C5641641321677D001014C4 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C5641631321677D001014C4 /* QuartzCore.framework */; };
 		5C7AF898131146E900DE4C2C /* SobelAnalyser.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C7AF897131146E900DE4C2C /* SobelAnalyser.m */; };
+		5C862E7F21A14A31001D9206 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C862E7E21A14A31001D9206 /* Default-568h@2x.png */; };
 		5CAA620E12E596A50070CDE0 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CAA620C12E596A50070CDE0 /* MainViewController.m */; };
 		5CAA620F12E596A50070CDE0 /* MainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5CAA620D12E596A50070CDE0 /* MainViewController.xib */; };
 		5CAB0B1B12F2C01000CF9320 /* OverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CAB0B1A12F2C01000CF9320 /* OverlayView.m */; };
@@ -39,12 +40,13 @@
 		5C18721C130A86A300D35058 /* MusicRecogniser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MusicRecogniser.m; sourceTree = "<group>"; };
 		5C21E8A712F5E542009E67D7 /* StaveLocator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StaveLocator.h; sourceTree = "<group>"; };
 		5C21E8A812F5E542009E67D7 /* StaveLocator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StaveLocator.m; sourceTree = "<group>"; };
-		5C21E8AE12F6FE52009E67D7 /* MusicRecogniser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MusicRecogniser.h; path = ../MusicRecogniser.h; sourceTree = "<group>"; };
-		5C43D2CD12E9E90C005639EA /* MusicRecognitionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MusicRecognitionViewController.h; path = SheetMusicPlayer.xcodeproj/MusicRecognitionViewController.h; sourceTree = SOURCE_ROOT; };
-		5C43D2CF12E9E90C005639EA /* MusicRecognitionViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MusicRecognitionViewController.xib; path = SheetMusicPlayer.xcodeproj/MusicRecognitionViewController.xib; sourceTree = SOURCE_ROOT; };
+		5C21E8AE12F6FE52009E67D7 /* MusicRecogniser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MusicRecogniser.h; path = MusicRecogniser.h; sourceTree = "<group>"; };
+		5C43D2CD12E9E90C005639EA /* MusicRecognitionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MusicRecognitionViewController.h; path = MusicRecognitionViewController.h; sourceTree = "<group>"; };
+		5C43D2CF12E9E90C005639EA /* MusicRecognitionViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MusicRecognitionViewController.xib; path = MusicRecognitionViewController.xib; sourceTree = "<group>"; };
 		5C5641631321677D001014C4 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
-		5C7AF896131146E900DE4C2C /* SobelAnalyser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SobelAnalyser.h; path = ../SobelAnalyser.h; sourceTree = "<group>"; };
-		5C7AF897131146E900DE4C2C /* SobelAnalyser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SobelAnalyser.m; path = ../SobelAnalyser.m; sourceTree = "<group>"; };
+		5C7AF896131146E900DE4C2C /* SobelAnalyser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SobelAnalyser.h; path = SobelAnalyser.h; sourceTree = "<group>"; };
+		5C7AF897131146E900DE4C2C /* SobelAnalyser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SobelAnalyser.m; path = SobelAnalyser.m; sourceTree = "<group>"; };
+		5C862E7E21A14A31001D9206 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		5CAA620B12E596A50070CDE0 /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
 		5CAA620C12E596A50070CDE0 /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
 		5CAA620D12E596A50070CDE0 /* MainViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainViewController.xib; sourceTree = "<group>"; };
@@ -97,11 +99,12 @@
 		5CF9CB4D12E33C0200AAFCD0 = {
 			isa = PBXGroup;
 			children = (
-				5C5641631321677D001014C4 /* QuartzCore.framework */,
-				5CF9CB6212E33C0200AAFCD0 /* SheetMusicPlayer */,
-				5CF9CB7A12E33C0200AAFCD0 /* SheetMusicPlayerTests */,
 				5CF9CB5B12E33C0200AAFCD0 /* Frameworks */,
 				5CF9CB5912E33C0200AAFCD0 /* Products */,
+				5CF9CB6212E33C0200AAFCD0 /* SheetMusicPlayer */,
+				5CF9CB7A12E33C0200AAFCD0 /* SheetMusicPlayerTests */,
+				5C862E7E21A14A31001D9206 /* Default-568h@2x.png */,
+				5C5641631321677D001014C4 /* QuartzCore.framework */,
 			);
 			sourceTree = "<group>";
 		};
@@ -127,9 +130,11 @@
 		5CF9CB6212E33C0200AAFCD0 /* SheetMusicPlayer */ = {
 			isa = PBXGroup;
 			children = (
+				5CF9CB6312E33C0200AAFCD0 /* Supporting Files */,
 				5CAA620B12E596A50070CDE0 /* MainViewController.h */,
 				5CAA620C12E596A50070CDE0 /* MainViewController.m */,
 				5CAA620D12E596A50070CDE0 /* MainViewController.xib */,
+				5CF9CB6E12E33C0200AAFCD0 /* MainWindow.xib */,
 				5C21E8AE12F6FE52009E67D7 /* MusicRecogniser.h */,
 				5C18721C130A86A300D35058 /* MusicRecogniser.m */,
 				5C43D2CD12E9E90C005639EA /* MusicRecognitionViewController.h */,
@@ -145,8 +150,6 @@
 				5C145F401302EEC8003A3FAA /* Stave.m */,
 				5C21E8A712F5E542009E67D7 /* StaveLocator.h */,
 				5C21E8A812F5E542009E67D7 /* StaveLocator.m */,
-				5CF9CB6E12E33C0200AAFCD0 /* MainWindow.xib */,
-				5CF9CB6312E33C0200AAFCD0 /* Supporting Files */,
 			);
 			path = SheetMusicPlayer;
 			sourceTree = "<group>";
@@ -154,20 +157,21 @@
 		5CF9CB6312E33C0200AAFCD0 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				5CF9CB6412E33C0200AAFCD0 /* SheetMusicPlayer-Info.plist */,
 				5CF9CB6512E33C0200AAFCD0 /* InfoPlist.strings */,
+				5CF9CB6412E33C0200AAFCD0 /* SheetMusicPlayer-Info.plist */,
 				5CF9CB6812E33C0200AAFCD0 /* SheetMusicPlayer-Prefix.pch */,
 				5CF9CB6912E33C0200AAFCD0 /* main.m */,
 			);
 			name = "Supporting Files";
+			path = "Supporting Files";
 			sourceTree = "<group>";
 		};
 		5CF9CB7A12E33C0200AAFCD0 /* SheetMusicPlayerTests */ = {
 			isa = PBXGroup;
 			children = (
+				5CF9CB7B12E33C0200AAFCD0 /* Supporting Files */,
 				5CF9CB8112E33C0200AAFCD0 /* SheetMusicPlayerTests.h */,
 				5CF9CB8312E33C0200AAFCD0 /* SheetMusicPlayerTests.m */,
-				5CF9CB7B12E33C0200AAFCD0 /* Supporting Files */,
 			);
 			path = SheetMusicPlayerTests;
 			sourceTree = "<group>";
@@ -175,11 +179,12 @@
 		5CF9CB7B12E33C0200AAFCD0 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				5CF9CB7C12E33C0200AAFCD0 /* SheetMusicPlayerTests-Info.plist */,
 				5CF9CB7D12E33C0200AAFCD0 /* InfoPlist.strings */,
+				5CF9CB7C12E33C0200AAFCD0 /* SheetMusicPlayerTests-Info.plist */,
 				5CF9CB8012E33C0200AAFCD0 /* SheetMusicPlayerTests-Prefix.pch */,
 			);
 			name = "Supporting Files";
+			path = "Supporting Files";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -227,6 +232,14 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0420;
+				TargetAttributes = {
+					5CF9CB5712E33C0200AAFCD0 = {
+						DevelopmentTeam = 68M9JL23T5;
+					};
+					5CF9CB7512E33C0200AAFCD0 = {
+						DevelopmentTeam = 68M9JL23T5;
+					};
+				};
 			};
 			buildConfigurationList = 5CF9CB5212E33C0200AAFCD0 /* Build configuration list for PBXProject "SheetMusicPlayer" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -254,6 +267,7 @@
 				5CF9CB6712E33C0200AAFCD0 /* InfoPlist.strings in Resources */,
 				5CF9CB7012E33C0200AAFCD0 /* MainWindow.xib in Resources */,
 				5CAA620F12E596A50070CDE0 /* MainViewController.xib in Resources */,
+				5C862E7F21A14A31001D9206 /* Default-568h@2x.png in Resources */,
 				5C43D2D112E9E90C005639EA /* MusicRecognitionViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -319,6 +333,7 @@
 				5CF9CB6612E33C0200AAFCD0 /* en */,
 			);
 			name = InfoPlist.strings;
+			path = .;
 			sourceTree = "<group>";
 		};
 		5CF9CB6E12E33C0200AAFCD0 /* MainWindow.xib */ = {
@@ -327,6 +342,7 @@
 				5CF9CB6F12E33C0200AAFCD0 /* en */,
 			);
 			name = MainWindow.xib;
+			path = .;
 			sourceTree = "<group>";
 		};
 		5CF9CB7D12E33C0200AAFCD0 /* InfoPlist.strings */ = {
@@ -335,6 +351,7 @@
 				5CF9CB7E12E33C0200AAFCD0 /* en */,
 			);
 			name = InfoPlist.strings;
+			path = .;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -376,12 +393,13 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				COPY_PHASE_STRIP = NO;
+				DEVELOPMENT_TEAM = 68M9JL23T5;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "SheetMusicPlayer/SheetMusicPlayer-Prefix.pch";
+				GCC_PREFIX_HEADER = "SheetMusicPlayer/Supporting Files/SheetMusicPlayer-Prefix.pch";
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
-				INFOPLIST_FILE = "SheetMusicPlayer/SheetMusicPlayer-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 3.2;
+				INFOPLIST_FILE = "SheetMusicPlayer/Supporting Files/SheetMusicPlayer-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -392,11 +410,12 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				COPY_PHASE_STRIP = YES;
+				DEVELOPMENT_TEAM = 68M9JL23T5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "SheetMusicPlayer/SheetMusicPlayer-Prefix.pch";
+				GCC_PREFIX_HEADER = "SheetMusicPlayer/Supporting Files/SheetMusicPlayer-Prefix.pch";
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
-				INFOPLIST_FILE = "SheetMusicPlayer/SheetMusicPlayer-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 3.2;
+				INFOPLIST_FILE = "SheetMusicPlayer/Supporting Files/SheetMusicPlayer-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				VALIDATE_PRODUCT = YES;
 				WRAPPER_EXTENSION = app;
@@ -408,14 +427,16 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/SheetMusicPlayer.app/SheetMusicPlayer";
+				DEVELOPMENT_TEAM = 68M9JL23T5;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "SheetMusicPlayerTests/SheetMusicPlayerTests-Prefix.pch";
+				GCC_PREFIX_HEADER = "SheetMusicPlayerTests/Supporting Files/SheetMusicPlayerTests-Prefix.pch";
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
-				INFOPLIST_FILE = "SheetMusicPlayerTests/SheetMusicPlayerTests-Info.plist";
+				INFOPLIST_FILE = "SheetMusicPlayerTests/Supporting Files/SheetMusicPlayerTests-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				OTHER_LDFLAGS = (
 					"-framework",
 					SenTestingKit,
@@ -431,14 +452,16 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/SheetMusicPlayer.app/SheetMusicPlayer";
+				DEVELOPMENT_TEAM = 68M9JL23T5;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "SheetMusicPlayerTests/SheetMusicPlayerTests-Prefix.pch";
+				GCC_PREFIX_HEADER = "SheetMusicPlayerTests/Supporting Files/SheetMusicPlayerTests-Prefix.pch";
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
-				INFOPLIST_FILE = "SheetMusicPlayerTests/SheetMusicPlayerTests-Info.plist";
+				INFOPLIST_FILE = "SheetMusicPlayerTests/Supporting Files/SheetMusicPlayerTests-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				OTHER_LDFLAGS = (
 					"-framework",
 					SenTestingKit,
