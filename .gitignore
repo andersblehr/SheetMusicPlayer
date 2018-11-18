@@ -9,6 +9,7 @@ build/*
 
 # Ignore private workspace stuff
 SheetMusicPlayer.xcodeproj/xcuserdata
+SheetMusicPlayer.xcodeproj/project.xcworkspace/xcuserdata
 
 ## Generic files to ignore
 *~
