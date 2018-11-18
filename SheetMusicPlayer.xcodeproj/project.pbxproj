@@ -98,7 +98,6 @@
 				5CF9CB5912E33C0200AAFCD0 /* Products */,
 				5CF9CB6212E33C0200AAFCD0 /* SheetMusicPlayer */,
 				5CF9CB7A12E33C0200AAFCD0 /* SheetMusicPlayerTests */,
-				5C862E7E21A14A31001D9206 /* Default-568h@2x.png */,
 			);
 			sourceTree = "<group>";
 		};
@@ -151,6 +150,7 @@
 		5CF9CB6312E33C0200AAFCD0 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				5C862E7E21A14A31001D9206 /* Default-568h@2x.png */,
 				5CF9CB6512E33C0200AAFCD0 /* InfoPlist.strings */,
 				5CF9CB6412E33C0200AAFCD0 /* SheetMusicPlayer-Info.plist */,
 				5CF9CB6812E33C0200AAFCD0 /* SheetMusicPlayer-Prefix.pch */,
